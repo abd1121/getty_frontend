@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="stylesheet" href="{% static 'files/css/rules.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/colorPalette.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/all.min.css' %}" />
+    <title>Getty Card</title>
+  </head>
+  <body>
+    <div class="profile-header">
+      <label class="white-label word-break">
+        You are in Preview Mode.<b> Customize your profile </b>by just clicking
+        elements.
+      </label>
+      <div class="row">
+        <div class="transparent-button white-outlined-btn">
+          <img src="{% static 'files/assets/viewIconWhite.svg' %}" />
+            <a href="{% url 'view_profile' id=record.pid_id %}"><div class="button-txt">View Public Mode</div></a>
+        </div>
+        <div class="transparent-button white-outlined-btn">
+            <a href="{% url 'index' %}">Go back to Edit Mode</a>
+        </div>
+      </div>
+    </div>
+       {% if record.cover_img %}
+    <img src="{{ record.cover_img.url }}" class="cover-image" alt="" />
+    {% else %}
+    <img src="{% static 'files/assets/Rectangle 1.png' %}" class="cover-image" alt="" />
+    {% endif %}
+    <div class="details-container">
+      <div class="profile-details">
+        <div class="profile-image-div">
+          <img class="profile-image" src="{{ record.prof_img.url }}" />
+        </div>
+        <div class="profile-details-txt">
+          <div>
+            <h1
+              class="h1 section-heading text"
+              id="holder-name"
+              onclick="selectTextElement('holder-name')"
+              style="{{ prof.name_style|safe }}"
+            >
+              {{ record.name|title }}
+            </h1>
+            <div
+              id="designation"
+              class="text"
+              onclick="selectTextElement('designation')"
+              style="{{ prof.title_style|safe }}"
+            >
+                {{ record.title }} <b>{{ record.company_name }}</b>
+            </div>
+          </div>
+          <div class="row">
+            <div
+              class="row dark-button button"
+              id="generate-qr-btn"
+              onclick="selectButtonElement('generate-qr-btn')"
+              style="{{ prof.qr_style|safe }}"
+            >
+              <i class="fas fa-qrcode" id="qrcode-icon"></i>
+              <div class="button-txt">Generate QR Code</div>
+            </div>
+            <div
+              class="row dark-button button"
+              id="download-vcf-button-profile"
+              onclick="selectButtonElement('download-vcf-button-profile')"
+              style="{{ prof.vcf_style|safe }}"
+            >
+              <i class="fas fa-download"></i>
+              <div class="button-txt">Download VCF</div>
+            </div>
+            <div
+              class="row dark-button button"
+              id="share-button"
+              onclick="selectButtonElement('share-button')"
+              style="{{ prof.share_style|safe }}"
+            >
+              <i class="fas fa-share-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section-light" id="aboutme-profile-section" style="{{ prof.aboutme_color|safe }}">
+      <div
+        class="picker-icon blue-picker left-picker"
+        onclick="pickerEvent('aboutme-profile-section')"
+      >
+        <img class="picker" src="{% static 'files/assets/picker-blue.svg' %}" />
+      </div>
+      <div class="profile-section" style="margin-top: 0px">
+        <div
+          class="h1 section-heading text"
+          id="aboutme-heading"
+          onclick="selectTextElement('aboutme-heading')"
+          style="{{ prof.aboutme_caption_style|safe }}"
+        >
+          About Me
+        </div>
+        <div class="break"></div>
+        <div
+          class="section-content text"
+          id="aboutme-content"
+          onclick="selectTextElement('aboutme-content')"
+          style="{{ prof.aboutme_text_style|safe }}"
+        >
+{#          <b> Hey I’m Samantha!</b> I’m a creative designer and passionate#}
+{#          worker. I’m the founder of the first women-only hedge fund, special#}
+{#          counsellor in many corporations across the globe. I’ve found balance#}
+{#          between work and life, now I’m a totally happy person, loving mother,#}
+{#          inspiring speaker and writer, and firm investor, but it didn’t come#}
+{#          easily. I've gone though hundreds of failures and complicated#}
+{#          situations. You can use my previous experience in order not to fall#}
+{#          into the same trap.#}
+            {{ record.about }}
+        </div>
+      </div>
+    </div>
+    <div class="profile-section-dark" id="aboutCompany-profile-section" style="{{ prof.company_backcolor|safe }}">
+      <div
+        class="picker-icon left-picker"
+        onclick="pickerEvent('aboutCompany-profile-section')"
+      >
+        <img class="picker" src="{% static 'files/assets/picker.svg' %}" />
+      </div>
+      <div class="profile-section">
+        <div
+          class="h1 white-forecolor text"
+          id="company-details-heading"
+          onclick="selectTextElement('company-details-heading')"
+          style="{{ prof.company_head_style|safe }}"
+
+        >
+          Let’s have a quick visit of my Company
+        </div>
+        <div class="break white-break"></div>
+        <div
+          class="row company-details white-forecolor"
+          id="company-details-content"
+          onclick="selectTextElement('company-details-content')"
+          style="{{ prof.comp_detail_style|safe }}"
+        >
+          <img src="{{ record.company_logo.url }}"  id="company-logo" class="company-logo" />
+          <div class="company-description-div">
+            <div id="company-name" class="text">{{ record.company_name }}</div>
+            <div id="company-description" class="text">
+              {{ record.about_company }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-section-light" id="gallery-section" style="{{ prof.gallery_backcolor|safe }}">
+      <div
+        class="picker-icon blue-picker left-picker"
+        onclick="pickerEvent('gallery-section')"
+      >
+        <img class="picker" src="{% static 'files/assets/picker-blue.svg' %}" />
+      </div>
+      <div class="profile-section gallery-section">
+        <div
+          class="h1 section-heading text"
+          id="photo-gallery"
+          onclick="selectTextElement('photo-gallery')"
+          style="{{ prof.gallery_caption_style|safe }}"
+        >
+          Photo Gallery
+        </div>
+        <div class="break"></div>
+      </div>
+      <div class="main-carousel" data-flickity='{ "wrapAround": true }'>
+          {% for i in gallery %}
+        <div class="carousel-cell">
+          <img
+            src="{{ i.image.url }}"
+            alt="orange tree"
+            style="height:300px"
+          />
+        </div>
+          {% endfor %}
+      </div>
+    </div>
+
+    <div class="profile-section-light" id="companyCulture-profile-section" style="{{ prof.culture_backcolor|safe }}">
+      <div
+        class="picker-icon blue-picker left-picker"
+        onclick="pickerEvent('companyCulture-profile-section')"
+      >
+        <img class="picker" src="{% static 'files/assets/picker-blue.svg' %}" />
+      </div>
+      <div class="profile-section">
+        <div
+          class="h1 section-heading text"
+          id="company-culture-heading"
+          onclick="selectTextElement('company-culture-heading')"
+          style="{{ prof.culture_headstyle|safe }}"
+        >
+          My Company’s Culture
+        </div>
+        <div class="break"></div>
+          {% if record.video %}
+          <video src="{{ record.video.url }}" class="promo-video" controls="controls"></video>
+          {% endif %}
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div
+        class="h1 section-heading text"
+        id="get-in-touch-heading"
+        onclick="selectTextElement('get-in-touch-heading')"
+        style="{{ prof.get_touch_style|safe }}"
+      >
+        Get in Touch with me
+      </div>
+      <div class="break"></div>
+    </div>
+    <div class="map">
+      <div class="get-in-touch" id="get-in-touch-section" style="{{ prof.contact_form_backcolor|safe }}">
+        <div class="row" style="width: 100%">
+          <h2 class="white-label text">Tell Your Queries</h2>
+          <div
+            class="picker-icon left-picker"
+            onclick="pickerEvent('get-in-touch-section')"
+          >
+           <img class="picker" src="{% static 'files/assets/picker.svg' %}" />
+          </div>
+        </div>
+        <div class="input-section">
+          <label class="white-label text">Your Name </label>
+          <input
+            type="text"
+            placeholder="write your name here"
+            id="sender-name"
+          />
+        </div>
+        <div class="input-section">
+          <label class="white-label text">Your Email </label>
+          <input
+            type="text"
+            placeholder="write your email here"
+            id="sender-email"
+          />
+        </div>
+        <div class="input-section">
+          <label class="white-label text">Your Message </label>
+          <textarea
+            id="sender-message"
+            placeholder="Tell us your query!"
+          ></textarea>
+        </div>
+        <div class="input-section">
+          <label for="message-attachment" class="file-input-label white-label">
+            <input
+              type="file"
+              id="message-attachment"
+              name="message-attachment"
+            />
+            <img src="{% static 'files/assets/uploadWhite.png' %}" class="attachment-icon" />
+            <label class="white-label text">Upload file here</label>
+          </label>
+        </div>
+        <div class="input-section">
+          <input
+            type="submit"
+            class="white-button"
+            id="send-msg-btn"
+            value="Send"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="profile-section-dark" id="footer-section" style="{{ prof.footer_backcolor|safe }}">
+      <div
+        class="picker-icon left-picker"
+        onclick="pickerEvent('footer-section')"
+      >
+         <img class="picker" src="{% static 'files/assets/picker.svg' %}" />
+      </div>
+      <div class="profile-section footer-section">
+        <div class="row footer">
+          <div class="column footer-column">
+            <img src="{{ record.company_logo }}" style="width: 100px;height: 100px" class="ooter-logo"/>
+            <label
+              class="white-label row footer-element text"
+              id="holder-email-section"
+              onclick="selectTextElement('holder-email-section')"
+               style="{{ prof.email_style|safe }}"
+            >
+              <b>Email ID:&nbsp;</b>
+              <div id="holders-email">{{ record.email }}</div>
+            </label>
+            <label
+              class="white-label row footer-element text"
+              id="holder-contact-section"
+              onclick="selectTextElement('holder-contact-section')"
+              style="{{ prof.phone_style|safe }}"
+            >
+              <b>Contact:&nbsp;</b>
+              <div id="holders-contact">{{ record.contact }}</div>
+            </label>
+          </div>
+          <div class="row social-links">
+            <a href="{{ record.facebook_social_links }}" id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-facebook-f social-icon"></i>
+              </div>
+            </a>
+            <div class="vertical-line"></div>
+            <a href="{{ record.instagram_social_links }}" id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-instagram social-icon"></i>
+              </div>
+            </a>
+            <div class="vertical-line"></div>
+            <a href="{{ record.linkedin_social_links }}" id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-linkedin social-icon"></i>
+              </div>
+            </a>
+            <div class="vertical-line"></div>
+            <a href="{{ record.twitter_social_links }}" id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-twitter social-icon"></i>
+              </div>
+            </a>
+            <div class="vertical-line"></div>
+            <a href="{{ record.website_social_links }}" id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-youtube social-icon"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================ -->
+    <!--                ABSOLUTE COLOR PALETTES           -->
+    <!-- ================================================ -->
+
+    <!-- --------- Text Editor ------------- -->
+    <div class="column bubble-container" id="text-editor">
+      <div class="customize-bubble">
+        <label class="dark-label"> Customize </label>
+        <div class="customize-component">
+          <p>Font Style</p>
+          <div class="custom-dropdown">
+            <div
+              class="selected-dropdown-option row"
+              id="dropdown-main"
+              onclick="customDropdownToggle('font-dropdown1-arrow', 'font-dropdown1-options')"
+            >
+              <div id="selected-font-dropdown1-option" class="poppins">
+                Poppins
+              </div>
+              <div class="arrow">
+                |
+                <i class="fas fa-angle-down" id="font-dropdown1-arrow"></i>
+              </div>
+            </div>
+            <ul class="dropdown-options" id="font-dropdown1-options">
+              <li
+                id="font-dropdown1-option-1"
+                class="roboto"
+                onclick="customDropdownSelect('selected-font-dropdown1-option','font-dropdown1-option-1', 'font-dropdown1-options', 'font-dropdown1-arrow')"
+              >
+                Roboto
+              </li>
+              <li
+                id="font-dropdown1-option-2"
+                class="open-sans"
+                onclick="customDropdownSelect('selected-font-dropdown1-option','font-dropdown1-option-2', 'font-dropdown1-options', 'font-dropdown1-arrow')"
+              >
+                Open Sans
+              </li>
+              <li
+                id="font-dropdown1-option-3"
+                class="montserrat"
+                onclick="customDropdownSelect('selected-font-dropdown1-option','font-dropdown1-option-3', 'font-dropdown1-options', 'font-dropdown1-arrow')"
+              >
+                Montserrat
+              </li>
+              <li
+                id="font-dropdown1-option-4"
+                class="bebas-neue"
+                onclick="customDropdownSelect('selected-font-dropdown1-option','font-dropdown1-option-4', 'font-dropdown1-options', 'font-dropdown1-arrow')"
+              >
+                Bebas Neue
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="customize-component">
+          <p>Font Weight</p>
+          <div class="custom-dropdown">
+            <div
+              class="selected-dropdown-option row"
+              onclick="customDropdownToggle('fontweight-dropdown1-arrow', 'fontweight-dropdown1-options')"
+            >
+              <div id="selected-fontweight-dropdown1-option" class="normal">
+                Normal
+              </div>
+              <div class="arrow">
+                |
+                <i
+                  class="fas fa-angle-down"
+                  id="fontweight-dropdown1-arrow"
+                ></i>
+              </div>
+            </div>
+            <ul class="dropdown-options" id="fontweight-dropdown1-options">
+              <li
+                id="fontweight-dropdown1-option-1"
+                class="light"
+                onclick="customDropdownSelect('selected-fontweight-dropdown1-option', 'fontweight-dropdown1-option-1', 'fontweight-dropdown1-options','fontweight-dropdown1-arrow')"
+              >
+                Light
+              </li>
+              <li
+                id="fontweight-dropdown1-option-2"
+                class="semi-bold"
+                onclick="customDropdownSelect('selected-fontweight-dropdown1-option', 'fontweight-dropdown1-option-2', 'fontweight-dropdown1-options','fontweight-dropdown1-arrow')"
+              >
+                Semi-bold
+              </li>
+              <li
+                id="fontweight-dropdown1-option-3"
+                class="bold"
+                onclick="customDropdownSelect('selected-fontweight-dropdown1-option', 'fontweight-dropdown1-option-3', 'fontweight-dropdown1-options','fontweight-dropdown1-arrow')"
+              >
+                Bold
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="customize-component">
+          <p>Font Color</p>
+          <div class="color-palette">
+            <div
+              onclick="selectForeColor('red', 'red2')"
+              id="red2"
+              class="color2 red"
+            ></div>
+            <div
+              onclick="selectForeColor('blue', 'blue2')"
+              id="blue2"
+              class="color2 blue"
+            ></div>
+            <div
+              onclick="selectForeColor('green', 'green2')"
+              id="green2"
+              class="color2 green"
+            ></div>
+            <div
+              onclick="selectForeColor('orange','orange2')"
+              id="orange2"
+              class="color2 orange"
+            ></div>
+            <div
+              onclick="selectForeColor('pink', 'pink2')"
+              id="pink2"
+              class="color2 pink"
+            ></div>
+            <div
+              onclick="selectForeColor('purple', 'purple2')"
+              id="purple2"
+              class="color2 purple"
+            ></div>
+            <label class="color2 color-picker" for="color-picker-2">
+              <input type="color" id="color-picker-2" name="color-picker" />
+              <img src="{% static 'files/assets/picker.svg' %}" />
+            </label>
+          </div>
+        </div>
+        <div class="customize-component">
+          <input
+            type="checkbox"
+            id="apply-to-all-text"
+            onclick="applyToAllText()"
+          />
+          <label for="apply-to-all-text"> Apply to all text </label>
+        </div>
+        <div class="row">
+          <div></div>
+          <input
+            type="submit"
+            class="dark-button"
+            value="Save"
+            onclick="saveTextProperties()"
+          />
+        </div>
+      </div>
+      <div class="bottom-arrow"></div>
+    </div>
+
+    <!-- --------- Button Editor ------------- -->
+
+    <div class="row bubble-container" id="button-editor">
+      <div class="customize-bubble">
+        <label class="dark-label"> Customize </label>
+
+        <div class="customize-component">
+          <p>Button Color</p>
+          <div class="color-palette">
+            <div
+              onclick="selectBgColor('red', 'red3')"
+              id="red3"
+              class="color2 red"
+            ></div>
+            <div
+              onclick="selectBgColor('blue', 'blue3')"
+              id="blue3"
+              class="color2 blue"
+            ></div>
+            <div
+              onclick="selectBgColor('green', 'green3')"
+              id="green3"
+              class="color2 green"
+            ></div>
+            <div
+              onclick="selectBgColor('orange', 'orange3')"
+              id="orange3"
+              class="color2 orange"
+            ></div>
+            <div
+              onclick="selectBgColor('pink', 'pink3')"
+              id="pink3"
+              class="color2 pink"
+            ></div>
+            <div
+              onclick="selectBgColor('purple', 'purple3')"
+              id="purple3"
+              class="color2 purple"
+            ></div>
+            <label class="color2 color-picker" for="color-picker-3">
+              <input type="color" id="color-picker-3" name="color-picker" />
+               <img src="{% static 'files/assets/picker.svg' %}" />
+            </label>
+          </div>
+        </div>
+
+        <div class="customize-component">
+          <p>Font Style</p>
+          <div class="custom-dropdown">
+            <div
+              class="selected-dropdown-option row"
+              id="dropdown-main"
+              onclick="customDropdownToggle('font-dropdown2-arrow', 'font-dropdown2-options')"
+            >
+              <div id="selected-font-dropdown2-option" class="poppins">
+                Poppins
+              </div>
+              <div class="arrow">
+                |
+                <i class="fas fa-angle-down" id="font-dropdown2-arrow"></i>
+              </div>
+            </div>
+            <ul class="dropdown-options" id="font-dropdown2-options">
+              <li
+                id="font-dropdown2-option-1"
+                class="roboto"
+                onclick="customDropdownSelect('selected-font-dropdown2-option','font-dropdown2-option-1', 'font-dropdown2-options', 'font-dropdown2-arrow')"
+              >
+                Roboto
+              </li>
+              <li
+                id="font-dropdown2-option-2"
+                class="open-sans"
+                onclick="customDropdownSelect('selected-font-dropdown2-option','font-dropdown2-option-2', 'font-dropdown2-options', 'font-dropdown2-arrow')"
+              >
+                Open Sans
+              </li>
+              <li
+                id="font-dropdown2-option-3"
+                class="montserrat"
+                onclick="customDropdownSelect('selected-font-dropdown2-option','font-dropdown2-option-3', 'font-dropdown2-options', 'font-dropdown2-arrow')"
+              >
+                Montserrat
+              </li>
+              <li
+                id="font-dropdown2-option-4"
+                class="bebas-neue"
+                onclick="customDropdownSelect('selected-font-dropdown2-option','font-dropdown2-option-4', 'font-dropdown2-options', 'font-dropdown2-arrow')"
+              >
+                Bebas Neue
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="customize-component">
+          <p>Font Weight</p>
+          <div class="custom-dropdown">
+            <div
+              class="selected-dropdown-option row"
+              onclick="customDropdownToggle('fontweight-dropdown2-arrow', 'fontweight-dropdown2-options')"
+            >
+              <div id="selected-fontweight-dropdown2-option" class="normal">
+                Normal
+              </div>
+              <div class="arrow">
+                |
+                <i
+                  class="fas fa-angle-down"
+                  id="fontweight-dropdown2-arrow"
+                ></i>
+              </div>
+            </div>
+            <ul class="dropdown-options" id="fontweight-dropdown2-options">
+              <li
+                id="fontweight-dropdown2-option-1"
+                class="light"
+                onclick="customDropdownSelect('selected-fontweight-dropdown2-option', 'fontweight-dropdown2-option-1', 'fontweight-dropdown2-options','fontweight-dropdown2-arrow')"
+              >
+                Light
+              </li>
+              <li
+                id="fontweight-dropdown2-option-2"
+                class="semi-bold"
+                onclick="customDropdownSelect('selected-fontweight-dropdown2-option', 'fontweight-dropdown2-option-2', 'fontweight-dropdown2-options','fontweight-dropdown2-arrow')"
+              >
+                Semi-bold
+              </li>
+              <li
+                id="fontweight-dropdown2-option-3"
+                class="bold"
+                onclick="customDropdownSelect('selected-fontweight-dropdown2-option', 'fontweight-dropdown2-option-3', 'fontweight-dropdown2-options','fontweight-dropdown2-arrow')"
+              >
+                Bold
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="customize-component">
+          <p>Fore Color</p>
+          <div class="color-palette">
+            <div
+              onclick="selectForeColor('white', 'white4')"
+              id="white4"
+              class="color2 white"
+            ></div>
+            <div
+              onclick="selectForeColor('red', 'red4')"
+              id="red4"
+              class="color2 red"
+            ></div>
+            <div
+              onclick="selectForeColor('blue', 'blue4')"
+              id="blue4"
+              class="color2 blue"
+            ></div>
+            <div
+              onclick="selectForeColor('green', 'green4')"
+              id="green4"
+              class="color2 green"
+            ></div>
+            <div
+              onclick="selectForeColor('orange', 'orange4')"
+              id="orange4"
+              class="color2 orange"
+            ></div>
+            <div
+              onclick="selectForeColor('pink', 'pink4')"
+              id="pink4"
+              class="color2 pink"
+            ></div>
+            <label class="color2 color-picker" for="color-picker-4">
+              <input type="color" id="color-picker-4" name="color-picker" />
+               <img src="{% static 'files/assets/picker.svg' %}" />
+            </label>
+          </div>
+        </div>
+        <div class="customize-component">
+          <input
+            type="checkbox"
+            id="apply-to-all-buttons"
+            onclick="applyToAllButtons()"
+          />
+          <label for="apply-to-all-buttons"> Apply to all Buttons </label>
+        </div>
+        <div class="row">
+          <div></div>
+          <input
+            type="submit"
+            class="dark-button"
+            value="Save"
+            onclick="saveButtonProperties()"
+          />
+        </div>
+      </div>
+      <div class="right-arrow"></div>
+    </div>
+
+    <!-- --------- Background Editor ------------- -->
+    <div
+      class="column bubble-container bg-palette-bubble"
+      id="bg-palette-bubble"
+    >
+      <div class="customize-bubble column">
+        <label class="dark-label"> Customize </label>
+        <p>Change Background Color</p>
+        <div class="color-palette palette-bg" id="color-palette">
+          <div
+            class="color2 red"
+            id="red1"
+            onclick="selectBgColor('red', 'red1')"
+          ></div>
+          <div
+            id="blue1"
+            class="color2 blue"
+            onclick="selectBgColor('blue','blue1')"
+          ></div>
+          <div
+            id="green1"
+            class="color2 green"
+            onclick="selectBgColor('green', 'green1')"
+          ></div>
+          <div
+            id="orange1"
+            class="color2 orange"
+            onclick="selectBgColor('orange', 'orange1')"
+          ></div>
+          <div
+            id="pink1"
+            class="color2 pink"
+            onclick="selectBgColor('pink', 'pink1')"
+          ></div>
+          <div
+            id="purple1"
+            class="color2 purple"
+            onclick="selectBgColor('purple', 'purple1')"
+          ></div>
+
+          <label class="color2 color-picker" for="color-picker-1">
+            <input type="color" id="color-picker-1" name="color-picker" />
+             <img src="{% static 'files/assets/picker.svg' %}" />
+          </label>
+        </div>
+        <div class="input-section">
+          <input
+            type="submit"
+            class="dark-button"
+            id="set-color-bg-btn"
+            value="Save"
+            onclick="saveBgProperties()"
+          />
+        </div>
+      </div>
+      <div class="bottom-arrow"></div>
+    </div>
+
+    <div class="overlaying-container" id="overlaying-container"></div>
+    <!-- Script File -->
+{% csrf_token %}
+      <script src="https://code.jquery.com/jquery-1.6.2.js"></script>
+    <script src="{% static 'files/js/profile.js' %}"></script>
+    <script src="{% static 'files/myjs/customize.js' %}"></script>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  </body>
+</html>

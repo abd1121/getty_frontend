@@ -1,0 +1,151 @@
+@import "colors.css";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.signup {
+  display: flex;
+}
+.left-pane {
+  background-color: var(--bg-blue);
+  min-height: 80vh;
+  width: 25vw;
+  margin: 0px;
+  padding: 80px 12.5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.dotted-box {
+  background-color: var(--light-blue);
+  border: 1px dashed var(--strokes-blue2);
+  border-radius: 16px;
+  padding: 5% 30% 0%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+p {
+  font-size: 12px;
+}
+
+.icon {
+  padding: 10px;
+  width: 18px;
+  background-color: #d4e6fb;
+  border-radius: 12px;
+}
+
+.right-pane {
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+}
+
+.input-element {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.tool-tip {
+  margin: 0;
+  padding: 0;
+}
+
+.s-btn{
+    margin:0
+}
+#uploadImage:hover {
+  cursor: pointer;
+}
+.margin-20{
+    margin:20px 0px
+}
+.input-box-div {
+  border-radius: 4px;
+  border: 1px solid var(--strokes-blue);
+  background-color: var(--white);
+  height: 2rem;
+  font-size: 16px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-input {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  width: 100%;
+}
+.eye-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.text-input:focus {
+  outline: none;
+  border: none;
+}
+
+.error-tip {
+  margin: 0;
+  padding: 0;
+  color: red;
+}
+
+.logo {
+  margin: 30px;
+}
+
+.last-label {
+  text-align: center;
+  margin: 10px;
+}
+@media only screen and (max-width: 600px) {
+  .signup {
+    flex-direction: column;
+  }
+  .left-pane {
+    width: 80%;
+    padding: 10%;
+    padding-top: 150px;
+    align-items: center;
+    text-align: center;
+  }
+  .svg {
+    visibility: none;
+    display: none;
+  }
+  .right-pane {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    height: fit-content;
+  }
+  .logo {
+    position: absolute;
+    top: 25px;
+    right: 50%;
+    transform: translate(-50%, 0%);
+    margin: 10px;
+    width: 20vw;
+  }
+}

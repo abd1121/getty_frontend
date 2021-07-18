@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="{% static 'files/css/rules.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/ScanCard.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Index.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/createGettyProfile.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/colorPalette.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+{#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">#}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
+    <title>Getty Card</title>
+
+    {% block css %}
+    {% endblock %}
+    <style>
+ .dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: beige;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top: 100px;
+    margin-right: 5px;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+    </style>
+
+
+
+</head>
+<body>
+<div class="main-body">
+    <!-- -----------------------
+            TOP NAV BAR
+    ------------------------- -->
+
+    <div class="top-bar">
+        <div id="nav-menu">|||</div>
+        <div class="profile-view">
+            {% if request.user.is_superuser %}
+             <img
+                    src="/static/default/default.png"
+                    alt="profile-image"
+                    class="profile-image"
+            />
+            {% else %}
+            <img
+                    src="{{ request.user.profile.img.url }}"
+                    alt="profile-image"
+                    class="profile-image"
+            />
+            {% endif %}
+            <div class="user-name-group">
+                <label class="nav-label" id="user-name">{{request.user.username|title}}</label>
+                <p id="user-role">User</p>
+            </div>
+             <div class="dropdown">
+          <img src="{% static 'files/assets/DownArrow.svg'%}" class="dropbtn" onclick="myFunctiontool()" />
+   </div>
+
+  <div class="dropdown-content" id="myDropdown" >
+    <a href="{% url 'logout_func' %}">Logout</a>
+
+  </div>
+        </div>
+    </div>
+
+
+
+    <div class="main-pane" id="create-getty-profile-area" style="display: flex;">
+
+        <div class="row" id="back-to-previous-step">
+          <div class="back"></div>
+          <label class="dark-bold-label">&nbsp; Back</label>
+        </div>
+        <h1>Create Your Getty Profile</h1>
+        <div class="progressbar-container">
+          <ul class="progressbar">
+            <li class="active" id="step-1">Personal Details</li>
+            <li id="step-2">Comapny Details</li>
+            <li id="step-3">Contact Details</li>
+            <li id="step-4">Gallery</li>
+            <li id="step-5">Customization</li>
+          </ul>
+        </div>
+<form method="post" id="myform" enctype="multipart/form-data" class="create-getty-profile-pane">
+                {% csrf_token %}
+        <!-- ADD PERSONAL DETAILS PART -->
+        <div class="create-getty-profile-pane" id="add-personal-details">
+          <label class="getty-profile-label">Add your Personal Details</label>
+          <div class="row profile-upload-area">
+      <div class="full-content upload-profile-image-a" id="upload-profile-image-a">
+              <img src="{{ record.prof_img.url }}" class="uploaded-profile-image" id="uploaded-profile-image" style="opacity: 1; display: block; transition: all 0.5s ease 0s; backface-visibility: hidden;">
+              <label for="upload-profile-image" class="
+                  upload-card-area
+                  profile-upload
+                  uploaded-profile-image-hover
+                " id="upload-profile-picture-area" style="position: absolute; top: 50%; transform: translate(0%, -50%); text-align: center; opacity: 0; background-color: rgb(26, 49, 72); border-radius: 4px; border: none;">
+                <input type="file" id="upload-profile-image" name="profile-image" accept="image/*">
+                <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadWhite.svg' %}" style="background-color: rgba(255, 255, 255, 0.2);">
+                <label class="dark-label word-break-label" style="color: white; font-size: 14px;">
+                  Upload Profile Picture
+                </label>
+              </label>
+            </div>
+        <div class="full-content upload-cover-image-a" id="upload-cover-image-a">
+              <img src="{{ record.cover_img.url }}" id="uploaded-cover-image" style="opacity: 1; display: block; transition: all 0.5s ease 0s; backface-visibility: hidden;">
+              <label for="upload-cover-image" class="upload-card-area profile-upload full-content" id="upload-cover-picture-area" style="position: absolute; top: 50%; transform: translate(0%, -50%); text-align: center; width: 110.5px; opacity: 0; background-color: rgb(26, 49, 72); border-radius: 4px; border: none;">
+                <input type="file" id="upload-cover-image" name="cover-image" accept="image/*">
+                <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadWhite.svg' %}" style="background-color: rgba(255, 255, 255, 0.2);">
+                <label class="dark-label word-break-label" style="color: white; font-size: 14px;">Upload Cover Picture
+                </label>
+              </label>
+            </div>
+          </div>
+          <div class="row full-content">
+            <div class="input-element">
+              <label for="profile-name" class="input-label">Name</label>
+              <input type="text" id="profile-name" name="profile-name" class="input-box" required="required" value="{{ record.name }}">
+            </div>
+            <div class="input-element full-content" style="margin-left: 10px">
+              <label for="profile-title" class="input-label">Title/Bio Line</label>
+              <input type="text" id="profile-title" name="profile-title" class="input-box" required="required" value="{{ record.title }}">
+            </div>
+          </div>
+          <div class="row full-content">
+            <div class="input-element full-content">
+              <label for="profile-aboutme" class="input-label">About me</label>
+              <textarea id="profile-aboutme" name="profile-aboutme" class="input-box aboutme-area">{{ record.about }}</textarea>
+            </div>
+          </div>
+          <hr>
+        </div>
+
+        <!-- ADD COMPANY DETAILS PART -->
+        <div class="create-getty-profile-pane" id="add-company-details">
+          <label class="getty-profile-label">Add your Company Details</label>
+        <div id="upload-company-logo-a">
+            <img src="{{ record.company_logo.url }}" id="uploaded-company-logo" style="opacity: 1; display: block; transition: all 0.5s ease 0s; backface-visibility: hidden;">
+            <label for="upload-company-logo" class="upload-card-area profile-upload" id="upload-company-logo-area" style="position: absolute; top: 50%; transform: translate(0%, -50%); text-align: center; opacity: 0; background-color: rgb(26, 49, 72); border-radius: 4px; border: none;">
+              <input type="file" id="upload-company-logo" name="company-logo-upload" accept="image/*">
+              <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadWhite.svg' %}" style="background-color: rgba(255, 255, 255, 0.2);">
+              <label class="dark-label word-break-label" style="color: white; font-size: 14px;">
+                Upload Company Logo
+              </label>
+            </label>
+          </div>
+          <div class="input-element">
+            <label for="company-name" class="input-label">Company's Name</label>
+            <input type="text" id="company-name" name="company-name" class="input-box" value="{{ record.company_name }}">
+          </div>
+          <div class="row full-content">
+            <div class="input-element full-content">
+              <label for="profile-aboutCompany" class="input-label">About Company</label>
+              <textarea id="profile-aboutCompany" name="profile-aboutCompany" class="input-box aboutme-area">{{ record.about_company }}</textarea>
+            </div>
+          </div>
+          <hr>
+        </div>
+
+        <!-- ADD CONTACT DETAILS PART -->
+        <div class="create-getty-profile-pane" id="add-contact-details">
+          <label class="getty-profile-label">Add Contact Details</label>
+          <div class="row full-content">
+            <div class="input-element contact-input">
+              <label for="profile-email" class="input-label">Email ID</label>
+              <input type="email" id="profile-email" name="profile-email" class="input-box" required="required" value="{{ record.email }}">
+            </div>
+            <div class="input-element contact-input">
+              <label for="profile-contact" class="input-label">Contact Number</label>
+              <input type="text" id="profile-contact" name="profile-contact" class="input-box" required="required" value="{{ record.contact }}">
+            </div>
+          </div>
+          <p>Social Accounts</p>
+           <div class="row full-content">
+            <div class="input-element contact-input">
+              <label for="social-profile-link" class="input-label"
+                >Select Social Account</label
+              >
+              <div class="custom-dropdown">
+                <div
+                  class="selected-dropdown-option row"
+                  id="dropdown-main"
+                  onclick="customDropdownToggle('social-link-dropdown-arrow', 'social-link-dropdown-options')"
+                >
+                  <div id="selected-social-link">Facebook</div>
+                  <div class="arrow">
+                    |
+                    <i
+                      class="fas fa-angle-down"
+                      id="social-link-dropdown-arrow"
+                    ></i>
+                  </div>
+                </div>
+                <ul class="dropdown-options" id="social-link-dropdown-options">
+                  <li
+                    id="social-link-option-1"
+                    onclick="customDropdownSelect('selected-social-link','social-link-option-1', 'social-link-dropdown-options', 'social-link-dropdown-arrow');populate()"
+                  >
+                    Instagram
+                  </li>
+                  <li
+                    id="social-link-option-2"
+                    onclick="customDropdownSelect('selected-social-link','social-link-option-2', 'social-link-dropdown-options', 'social-link-dropdown-arrow');populate()"
+                  >
+                    Linked In
+                  </li>
+                  <li
+                    id="social-link-option-3"
+                    onclick="customDropdownSelect('selected-social-link','social-link-option-3', 'social-link-dropdown-options', 'social-link-dropdown-arrow');populate()"
+                  >
+                    Twitter
+                  </li>
+                  <li
+                    id="social-link-option-4"
+                    onclick="customDropdownSelect('selected-social-link','social-link-option-4', 'social-link-dropdown-options', 'social-link-dropdown-arrow');populate()"
+                  >
+                    Website
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="input-element contact-input">
+              <label for="social-profile-link" class="input-label"
+                >Add Link</label
+              >
+              <div class="row">
+                <input
+                  type="text"
+                  id="social-profile-link"
+                  class="input-box full-content"
+                  value="{{ record.facebook_social_links }}"
+                />
+                <input
+                  type="button"
+                  class="dark-button"
+                  value="ADD"
+                  id="add-social-link-btn"
+                  onclick="addSocialLink('social-profile-link', 'icon-list' )"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row" id="icon-list"></div>
+          <p>Location/ Map</p>
+          <img src="{% static 'files/assets/mp.jpg' %}" id="map">
+
+          <hr>
+        </div>
+
+        <!-- CREATE YOUR GALLERY PART -->
+        <div class="create-getty-profile-pane" id="create-gallery">
+          <label class="getty-profile-label">Create Your Gallery</label>
+          <p>Add Photos</p>
+          <div id="upload-gallery-images-a">
+              {% for i in gallery %}
+              <img class="uploaded-gallery-image" src="{{ i.image.url }}">
+              {% endfor %}
+            <label for="upload-gallery-image" class="upload-card-area profile-upload" id="upload-gallery-image-area">
+              <input type="file" id="upload-gallery-image" name="upload-gallery-image" multiple="" accept="image/*">
+              <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadIcon.png' %}">
+              <label class="dark-label word-break-label">
+                Upload Photos
+                <label>(JPEG, JPG, PNG)</label>
+              </label>
+            </label>
+          </div>
+          <p>Promo Video File</p>
+            {% if record.video %}
+<div id="upload-promo-video-a">
+            <video id="uploaded-promo-video" src={{ record.video.url }} style="opacity: 1; display: block; transition: all 0.5s ease 0s; backface-visibility: hidden;"></video>
+            <label for="upload-promo-video" class="upload-card-area profile-upload" id="upload-promo-video-area" style="position: absolute; text-align: center; width: 677.266px; top: 560px; opacity: 0; background-color: rgb(26, 49, 72); border-radius: 4px; border: none;">
+              <input type="file" id="upload-promo-video" name="upload-promo-video" accept=".MP3, .MP4">
+              <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadWhite.svg' %}" style="background-color: rgba(255, 255, 255, 0.2);">
+              <label class="dark-label word-break-label" style="color: white; font-size: 14px;">
+                Upload Prmo Video
+                <label>(MP4, MP3)</label>
+              </label>
+            </label>
+          </div>
+              {% else %}
+        <div id="upload-promo-video-a">
+         <video id="uploaded-promo-video" autoplay="" ></video>
+            <label for="upload-promo-video" class="upload-card-area profile-upload" id="upload-promo-video-area">
+              <input type="file" id="upload-promo-video" name="upload-promo-video" accept=".MP3, .MP4">
+              <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadIcon.png' %}">
+              <label class="dark-label word-break-label">
+                Upload Prmo Video
+                <label>(MP4, MP3)</label>
+              </label>
+            </label>
+          </div>
+{% endif %}
+          <hr>
+        </div>
+
+         <!-- CUSOMIZE QR CODE PART0 -->
+{% if record.qr_type == '0' %}
+         <div autofocus="autofocus" class="create-getty-profile-pane" id="customize-qr-code">
+          <label class="getty-profile-label">Customize your QR Code</label>
+          <p>Select Type</p>
+          <div class="row qr-code-holder">
+            <div
+              class="qr-code selected-qr-code"
+              id="qr-without-logo"
+              onclick="selectQRCode('qr-without-logo')"
+            >
+              <img src="{% static 'files/assets/qr-code-1.png' %}" class="code-img" />
+            </div>
+            <div
+              class="qr-code"
+              id="qr-with-logo"
+              onclick="selectQRCode('qr-with-logo')"
+            >
+              <img src="{% static 'files/assets/qr-code-2.png' %}" class="code-img" />
+            </div>
+          </div>
+          <p>Select Color</p>
+          <div class="color-palette">
+            <div
+              onclick="qrCodeColor('red', 'qr-red')"
+              id="qr-red"
+              class="color red"
+            ></div>
+            <div
+              onclick="qrCodeColor('blue', 'qr-blue')"
+              id="qr-blue"
+              class="color blue"
+            ></div>
+            <div
+              onclick="qrCodeColor('green', 'qr-green')"
+              id="qr-green"
+              class="color green"
+            ></div>
+            <div
+              onclick="qrCodeColor('orange', 'qr-orange')"
+              id="qr-orange"
+              class="color orange"
+            ></div>
+            <div
+              onclick="qrCodeColor('pink', 'qr-pink')"
+              id="qr-pink"
+              class="color pink"
+            ></div>
+            <div
+              onclick="qrCodeColor('purple', 'qr-purple')"
+              id="qr-purple"
+              class="color purple"
+            ></div>
+            <div
+              onclick="qrCodeColor('indigo', 'qr-indigo')"
+              id="qr-indigo"
+              class="color indigo"
+            ></div>
+            <div
+              onclick="qrCodeColor('teal', 'qr-teal')"
+              id="qr-teal"
+              class="color teal"
+            ></div>
+            <div
+              onclick="qrCodeColor('brown', 'qr-brown')"
+              id="qr-brown"
+              class="color brown"
+            ></div>
+            <div
+              onclick="qrCodeColor('grey', 'qr-grey')"
+              id="qr-grey"
+              class="color grey"
+            ></div>
+            <label
+              class="color color-picker"
+              for="color-picker-qr"
+              id="color-picker-qr-a"
+            >
+              <input type="color" id="color-picker-qr" name="color-picker" />
+              <img src="{% static 'files/assets/picker.svg' %}" />
+            </label>
+
+          </div>
+          <div id="upload-qr-logo-a">
+            <p>Add logo to add in QR Code</p>
+            <img id="uploaded-qr-logo" />
+            <label
+              for="upload-qr-logo"
+              class="upload-card-area profile-upload"
+              id="upload-qr-logo-area"
+            >
+              <input
+                type="file"
+                id="upload-qr-logo"
+                name="upload-qr-logo"
+                accept="image/*"
+              />
+              <img
+                class="icon profile-icon-upload"
+                src="{% static 'files/assets/uploadIcon.png' %}"
+              />
+              Upload Logo
+            </label>
+          </div>
+          <div class="qr-instructions">
+            Save these details and preview your Profile. <br>Customize your
+            Profile in <b>Preview Mode</b> by adding colors of your own choice.
+          </div>
+          <hr>
+        </div>
+<input type="text" name="imgalready" id="imgalready" value="0" hidden="hidden">
+{% else %}
+  <div class="create-getty-profile-pane" id="customize-qr-code" >
+          <label class="getty-profile-label">Customize your QR Code</label>
+          <p>Select Type</p>
+          <div class="row qr-code-holder">
+            <div
+              class="qr-code selected-qr-code"
+              id="qr-without-logo"
+              onclick="selectQRCode('qr-without-logo')"
+            >
+              <img src="{% static 'files/assets/qr-code-1.png' %}" class="code-img" aria-selected="true"/>
+            </div>
+            <div
+              class="qr-code"
+              id="qr-with-logo"
+              onclick="selectQRCode('qr-with-logo')"
+            >
+              <img src="{% static 'files/assets/qr-code-2.png' %}" class="code-img" />
+            </div>
+          </div>
+          <p>Select Color</p>
+          <div class="color-palette">
+            <div
+              onclick="qrCodeColor('red', 'qr-red')"
+              id="qr-red"
+              class="color red"
+            ></div>
+            <div
+              onclick="qrCodeColor('blue', 'qr-blue')"
+              id="qr-blue"
+              class="color blue"
+            ></div>
+            <div
+              onclick="qrCodeColor('green', 'qr-green')"
+              id="qr-green"
+              class="color green"
+            ></div>
+            <div
+              onclick="qrCodeColor('orange', 'qr-orange')"
+              id="qr-orange"
+              class="color orange"
+            ></div>
+            <div
+              onclick="qrCodeColor('pink', 'qr-pink')"
+              id="qr-pink"
+              class="color pink"
+            ></div>
+            <div
+              onclick="qrCodeColor('purple', 'qr-purple')"
+              id="qr-purple"
+              class="color purple"
+            ></div>
+            <div
+              onclick="qrCodeColor('indigo', 'qr-indigo')"
+              id="qr-indigo"
+              class="color indigo"
+            ></div>
+            <div
+              onclick="qrCodeColor('teal', 'qr-teal')"
+              id="qr-teal"
+              class="color teal"
+            ></div>
+            <div
+              onclick="qrCodeColor('brown', 'qr-brown')"
+              id="qr-brown"
+              class="color brown"
+            ></div>
+            <div
+              onclick="qrCodeColor('grey', 'qr-grey')"
+              id="qr-grey"
+              class="color grey"
+            ></div>
+            <label
+              class="color color-picker"
+              for="color-picker-qr"
+              id="color-picker-qr-a"
+            >
+              <input type="color" id="color-picker-qr" name="color-picker" />
+              <img src="{% static 'files/assets/picker.svg' %}" />
+            </label>
+              <input type="text" name="qrcolor" id="qrcolor" value={{ record.qr_color }} hidden="hidden"/>
+          </div>
+         <div id="upload-qr-logo-a" style="display: block">
+            <p>Add logo to add in QR Code</p>
+            <img id="uploaded-qr-logo" src="{{ record.qr_logo.url }}" style="opacity: 1; display: block; transition: all 0.5s ease 0s; backface-visibility: hidden;">
+            <label for="upload-qr-logo" class="upload-card-area profile-upload" id="upload-qr-logo-area" style="position: absolute; text-align: center; top: 682px; opacity: 0; background-color: rgb(26, 49, 72); border-radius: 4px; border: none;">
+              <input type="file" id="upload-qr-logo" name="upload-qr-logo" accept="image/*" src="{{ record.qr_logo.url }}">
+              <img class="icon profile-icon-upload" src="{% static 'files/assets/uploadWhite.svg' %}" style="background-color: rgba(255, 255, 255, 0.2);">
+              Upload Logo
+            </label>
+
+          </div>
+
+          <div class="qr-instructions">
+            Save these details and preview your Profile. <br>Customize your
+            Profile in <b>Preview Mode</b> by adding colors of your own choice.
+          </div>
+          <hr>
+        </div>
+    <input type="hidden" name="imgalready" id="imgalready" value="1">
+{% endif %}
+
+
+ <input type="hidden" name="qrcolor" id="qrcolor" value={{ record.qr_color }} />
+ <input type="hidden" value={{ record.qr_type }} name="qrtype" id="qrtype">
+<input type="hidden" name="Facebook" id="facebook" value={{ record.facebook_social_links }} />
+<input type="hidden" name="Twitter" id="twitter" value={{ record.twitter_social_links }}  />
+<input type="hidden" name="Instagram" id="instagram" value={{ record.instagram_social_links }} />
+<input type="hidden" name="Linked In" id="linkedin" value={{ record.linkedin_social_links }} />
+<input type="hidden" name="Website" id="website" value={{ record.website_social_links }} />
+<div class="row profile-controls">
+            <a href="{% url 'edit_profile' id=record.pid.id %}"><input type="button" class="transparent-button profile-button" value="CANCEL" id="cancel-profile-creation-btn"></a>
+          <input type="button" class="transparent-button profile-button" value="PREVIEW &amp; CUSTOMIZE PROFILE" id="preview-profile-btn">
+          <input type="submit" class="dark-button profile-button" value="SAVE &amp; PUBLISH" id="save-profile-btn">
+          <input type="button" class="dark-button profile-button" value="NEXT" id="next-step-button">
+        </div>
+    <textarea id="image_data" name="image_data" hidden="hidden"></textarea>
+        <br>
+</form>
+      </div>
+
+</div>
+
+<div class="nav-bar" id="navigation-bar">
+    <img src="{% static 'files/assets/logo.png' %}" alt="logo" class="nav-bar-logo" />
+    <div class="nav-bar-content">
+        <a href="{% url 'history' %}">
+            <div class="nav-bar-element" id="dashboard-nav">
+                <img src="{% static 'files/assets/DashboardIcon.svg' %}" class="nav-bar-icon" />
+                <label class="nav-label">Dashboard</label>
+            </div>
+        </a>
+        <a href="{% url 'index' %}">
+            <div
+                    class="nav-bar-element "
+                    id="scan-card-nav"
+            >
+                <img src="{% static 'files/assets/ScanIcon.svg' %}" class="nav-bar-icon" />
+                <label class="nav-label">Scan Your Card</label>
+            </div>
+        </a>
+        <p>My Getty Profile</p>
+        {% if profile == 1 %}
+        <a href="{% url 'profile_create' %}">
+            <div class="nav-bar-element nav-bar-element-selected" id="create-new-profile-button">
+                <img src="{% static 'files/assets/AddIcon.svg' %}" class="nav-bar-icon" />
+                <label class="nav-label">Create New Profile</label>
+            </div>
+            </a>
+        {% else %}
+            <div class="nav-dropdown" id="nav-dropdown">
+                <div class="nav-bar-element" id="my-profile-button">
+                    <img
+                            src="{{ request.user.social_profile.prof_img.url }}"
+                            class="nav-bar-icon"
+                            id="nav-profile-image"
+                    />
+                    <label class="nav-label">{{ request.user.social_profile.name }}</label>
+                    <div class="dropdown-arrow" id="nav-dropdown-arrow"></div>
+                </div>
+                <ul class="nav-dropdown-list" id="nav-dropdown-list">
+                    <li class="nav-bar-element">
+                        <img src="{% static 'files/assets/viewPublic.svg' %}" />
+                        <a href="{% url 'view_profile' id=request.user.social_profile.pid.id  %}"> <label class="dropdown-label">View Public Mode</label></a>
+                    </li>
+                    <li class="nav-bar-element nav-bar-element-selected">
+                        <img src="{% static 'files/assets/EditIcon.svg' %}" />
+                        <a href="{% url 'edit_profile' id=request.user.social_profile.pid.id  %}">  <label class="dropdown-label">Edit Profile</label></a>
+                    </li>
+                    <li class="nav-bar-element">
+                        <img src="{% static 'files/assets/EditIcon.svg' %}" />
+                        <a href="{% url 'customize_profile' id=request.user.social_profile.pid.id  %}"><label class="dropdown-label">Customize Profile</label></a>
+                    </li>
+                    <li class="nav-bar-element" id="delete-profile-button">
+                        <img src="{% static 'files/assets/trash-2.svg' %}" />
+                        <a href="{% url 'delete_profile' id=request.user.social_profile.pid.id %}"><label class="dropdown-label delete-label">Delete Profile</label></a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.6.2.js"></script>
+
+</body>
+<script src="{% static 'files/js/Index.js' %}" type="application/javascript"></script>
+<script src="{% static 'files/js/createProfile.js' %}" type="application/javascript"></script>
+<script src="{% static 'files/js/Navigation.js' %}" type="application/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.6.2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
+<script src="{% static 'files/js/main.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js" type="application/javascript"></script>
+<script>
+
+
+$( document ).ready(function() {
+    document.getElementById('my-profile-button').click();
+});
+
+function myFunctiontool() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+
+</script>
+<script>
+function delete_all() {
+
+    if (document.getElementById('control').value == '0') {
+        var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            checkbox.checked = true;
+        }
+        document.getElementById('control').value ='1';
+        document.getElementById('mdb').style.display ='block';
+    }
+    else{
+
+        var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            checkbox.checked = false;
+        }
+        document.getElementById('control').value='0';
+        document.getElementById('mdb').style.display ='none';
+    }
+};
+function record() {
+
+    var selected_rows=[];
+ var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            if(checkbox.checked){
+            selected_rows.push(checkbox.id)
+
+            }
+        }
+
+    // slected_values=stringify
+    console.log(selected_rows)
+    var selected_rows = JSON.stringify(selected_rows);
+    var isDelete = confirm("Do you really want to delete records?");
+    if(isDelete){
+
+        $.ajax({
+              url: '{% url 'multiple_delete' %}',
+              type: 'POST',
+              data: { post_id: selected_rows,csrfmiddlewaretoken: '{{ csrf_token }}'},
+              success: function(response){
+                 window.location.href="{% url 'history' %}"
+              }
+           });
+
+
+
+    }
+
+
+}
+function check() {
+
+        var a = 0;
+        var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            if (checkbox.checked) {
+                a = a + 1;
+
+            }
+            if (a >= 2) {
+                console.log(a);
+                document.getElementById('mdb').style.display = 'block';
+            } else {
+
+                document.getElementById('mdb').style.display = 'none';
+            }
+        }
+}
+</script>
+<script src="{% static 'files/myjs/editing.js' %}"></script>
+

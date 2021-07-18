@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="{% static 'files/css/rules.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Index.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/adminDashboard.css'%}" />
+
+    <title>Getty Card</title>
+    <style>
+        .dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: beige;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+
+
+}
+
+
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+    </style>
+
+      {% block css %}
+      {% endblock %}
+  </head>
+  <body>
+    <div class="main-body">
+      <!-- -----------------------
+              TOP NAV BAR
+      ------------------------- -->
+
+      <div class="top-bar">
+        <div id="nav-menu">|||</div>
+        <div class="profile-view">
+          <img
+            src="{% static 'default/default.png'%}"
+            alt="profile-image"
+            class="profile-image"
+          />
+          <div class="user-name-group">
+            <label class="nav-label" id="user-name">{{ request.user }}</label>
+            <p id="user-role">Admin</p>
+          </div>
+            <div class="dropdown">
+          <img src="{% static 'files/assets/DownArrow.svg'%}" class="dropbtn" onclick="myFunctiontool()" />
+   </div>
+
+  <div class="dropdown-content" id="myDropdown" >
+    <a href="{% url 'logout_func' %}">Logout</a>
+
+  </div>
+
+
+        </div>
+      </div>
+
+      <!-- -----------------------
+              DASHBOARD AREA
+      ------------------------- -->
+        {% block d_body %}
+      {% endblock %}
+
+    </div>
+
+    <!-----------------------------
+            NAVIGATION BAR
+      ---------------------------->
+    <div class="nav-bar" id="navigation-bar">
+      <img src="{% static 'files/assets/logo.png'%}" alt="logo" class="nav-bar-logo" />
+      <div class="nav-bar-content">
+        <a href="{% url 'ad_statistics' %}"><div
+          class="nav-bar-element nav-bar-element-selected"
+          id="dashboard-admin-nav"
+        >
+          <img src="{% static 'files/assets/DashboardIcon.svg'%}" class="nav-bar-icon" />
+            <label class="nav-label">Dashboard</label> </div></a>
+
+        <a href="{% url 'ad_users' %}"><div class="nav-bar-element" id="users-nav">
+          <img src="{% static 'files/assets/usersIcon.svg'%}" class="nav-bar-icon"  class="nav-bar-element nav-bar-element-selected" />
+            <label class="nav-label">Users</label></div></a>
+
+          <a href="{% url 'ad_scans' %}">
+        <div class="nav-bar-element" id="scan-history-nav">
+          <img src="{% static 'files/assets/ScanIcon.svg'%}" class="nav-bar-icon" />
+            <label class="nav-label">Scan History</label></div></a>
+
+           <a href="{% url 'logout_func' %}">
+           <div class="nav-bar-element" id="Users-nav">
+          <img src="{% static 'files/assets/UsersIcon.svg'%}" class="nav-bar-icon" />
+           <label class="nav-label">Logout</label></div></a>
+
+      </div>
+    </div>
+
+    <!--------------------------
+            SCRIPT FILES
+      ------------------------- -->
+    <script src="https://code.jquery.com/jquery-1.6.2.js"></script>
+    <script src="{% static 'files/js/Index.js'%}"></script>
+    <script src="{% static 'files/js/adminDash.js'%}"></script>
+
+  <script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+
+$('#dashboard-admin-nav, #users-nav').click(function() {
+    let clickedButton = $(this).attr('id');
+    console.log('hye');
+});
+
+function myFunctiontool() {
+
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function myFunctiontool2(t) {
+   console.log('hye')
+  if(document.getElementById('key').value != 'ck' ){
+       console.log(document.getElementById('key').value)
+       var myDropdown = document.getElementById(document.getElementById('key').value);
+       if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+  id="myDropdown"+t;
+  document.getElementById(id).classList.toggle("show");
+  document.getElementById('key').value=id;
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+
+   if (!e.target.matches('.action')) {
+  var myDropdown = document.getElementById(document.getElementById('key').value);
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+const shareDialog = document.querySelector('.share-dialog');
+const closeButton = document.querySelector('.close-button');
+function myFunctionshare(id){
+  if (navigator.share) {
+   navigator.share({
+      title: 'Share Link',
+      url: '/view_profile/'+id+'/'
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+    } else {
+       alert("Your Connection is not Secure");
+    }
+
+
+closeButton.addEventListener('click', event => {
+  shareDialog.classList.remove('is-open');
+});
+     }
+    </script>
+
+  </body>
+{% block d_extrascript %}
+{% endblock %}
+</html>

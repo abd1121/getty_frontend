@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Trimatrix Lab">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+
+    <title>Personal Profile</title>
+     <link href="{% static  'img/favicon.png' %}" rel="icon">
+
+    <!--APPLE TOUCH ICON-->
+    <link rel="apple-touch-icon" href="images/site/apple-touch-icon.png">
+
+
+    <!-- GOOGLE FONT -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+
+    <!-- MATERIAL ICON FONT -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- FONT AWESOME -->
+      <link href="{% static 'lib/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+
+    <!-- ANIMATION -->
+    <link href="{% static 'view/animate.min.css' %}" rel="stylesheet">
+    <!-- MAGNIFICENT POPUP -->
+    <link href="{% static 'view/magnific-popup.css' %}" rel="stylesheet">
+    <!-- SWIPER -->
+    <link href="{% static 'view/swiper.min.css' %}" rel="stylesheet">
+    <!-- MATERIALIZE -->
+    <link href="{% static 'view/materialize.css' %}" rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <!-- CUSTOM STYLE -->
+    <link href="{% static 'view/style.css' %}" id="switch_style" rel="stylesheet">
+    <!--TOGGLE-->
+    <link href="{% static 'view/toggle.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+
+<!--==========================================
+                  PRE-LOADER
+===========================================-->
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="box-holder animated bounceInDown">
+                <span class="load-box"><span class="box-inner"></span></span>
+            </div>
+            <!-- NAME & STATUS -->
+            <div class="text-holder text-center">
+                <h2>{{ record.name }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==========================================
+                    HEADER
+===========================================-->
+<header id="home">
+
+    <!--HEADER BACKGROUND-->
+    <div class="header-background section" style="background-image: url({{ record.cover_img.url }})"></div>
+
+</header>
+
+
+<!--==========================================
+                   V-CARD
+===========================================-->
+<div id="v-card-holder" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <!-- V-CARD -->
+                <div id="v-card" class="card">
+
+                    <!-- PROFILE PICTURE -->
+                    <div id="profile" class="right">
+                        <img alt="profile-image" class="img-responsive" src="{{ record.prof_img.url }}">
+                        <div class="slant"></div>
+
+                        <!--EMPTY PLUS BUTTON-->
+                        <div class="btn-floating btn-large add-btn"><a href="{% url 'login_func' %}"><i class="material-icons">add</i></a></div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <!-- NAME & STATUS -->
+                        <div class="info-headings">
+                            <h4 class="text-uppercase left">{{ record.name }}</h4>
+                        </div>
+
+                        <!-- CONTACT INFO -->
+                        <div class="infos">
+                            <ul class="profile-list">
+                                <li class="clearfix">
+                                    <span class="title"><i class="material-icons">email</i></span>
+                                    <span class="content"><a href="" class="__cf_email__" data-cfemail="e58088848c89a588848c8995978a938c818097cb868a88">{{ record.email }}</a></span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="title"><i class="material-icons">phone</i></span>
+                                    <span class="content">{{ record.contact }}</span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="title"><i class="material-icons">place</i></span>
+                                    <span class="content">{{ record.address }}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <!--LINKS-->
+                        <div class="links">
+                            <!-- FACEBOOK-->
+                            <a href="{{ record.facebook }}" id="first_one" target="_blank"
+                               class="social btn-floating indigo"><i
+                                    class="fa fa-facebook"></i></a>
+                            <!-- TWITTER-->
+                            <a href="{{ record.twitter }}" target="_blank" class="social  btn-floating blue" ><i
+                                    class="fa fa-twitter"></i></a>
+                            <!-- GOOGLE+-->
+                            <a href="{{ record.instagram }}" target="_blank" class="social  btn-floating red"><i
+                                    class="fa fa-instagram"></i></a>
+                            <!-- LINKEDIN-->
+                            <a href="{{ record.linkedin }}" target="_blank" class="social  btn-floating blue darken-3"><i
+                                    class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==========================================
+                   ABOUT
+===========================================-->
+<div id="about" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DETAILS -->
+                <div id="about-card" class="card">
+                    <div class="card-content">
+                        <!-- ABOUT PARAGRAPH -->
+                        <p>
+                           {{ record.about }}
+                        </p>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div id="about-btn" class="card-action">
+                        <div class="about-btn">
+                            <!-- DOWNLOAD CV BUTTON -->
+{#                            <a href="#" class="btn waves-effect">Download CV</a>#}
+                            <!-- CONTACT BUTTON -->
+                            <a href="#contact" class="btn waves-effect">Contact Me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==========================================
+                  CONTACT
+===========================================-->
+<section id="contact" class="section">
+    <div class="container">
+        <!-- SECTION TITLE -->
+        <div class="section-title">
+            <h4 class="text-uppercase text-center"><img src="{% static 'view/envelope.png' %}" alt="demo">Contact</h4>
+        </div>
+        <div class="row">
+            <div id="contact-card" class="col-md-5 col-sm-12 col-xs-12">
+                <!-- CONTACT FORM -->
+                <div class="card">
+                    <div class="card-content">
+                        <form id="form" name="form">
+                            <!-- NAME -->
+                            {% csrf_token %}
+                            <input type="hidden" id="receipt" name="receipt" value="{{ record.email }}">
+                            <div class="input-field">
+                                <input id="first_name" type="text" class="validate" name="first_name" required>
+                                <label for="first_name">Name</label>
+                            </div>
+                            <!--SUBJECT-->
+                            <div class="input-field">
+                                <input id="sub" type="text" class="validate" name="sub">
+                                <label for="sub">Subject</label>
+                            </div>
+                            <!--EMAIL-->
+                            <div class="input-field">
+                                <input id="sender_email" type="email" class="validate" name="sender_email" required>
+                                <label for="email">Email</label>
+                            </div>
+                            <!--MESSAGE-->
+                            <div class="input-field">
+                                <textarea id="message" class="materialize-textarea" name="message"
+                                          required></textarea>
+                                <label for="textarea1">Message</label>
+                            </div>
+                            <!-- SEND BUTTON -->
+                            <div class="contact-send">
+                                <button id="submit" name="contactSubmit" type="submit" value="Submit"
+                                        class="btn waves-effect">Send
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <!--FORM LOADER-->
+                    <div id="form-loader" class="progress is-hidden">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <!-- CONTACT MAP -->
+                <div id="map-card" class="card">
+                    <!-- MAP -->
+{#                    <div id="myMap"></div>#}
+                    <iframe src="https://maps.google.com/maps?q={{ record.latitude }},{{ record.longitude }}&z=15&output=embed" height="430px" frameborder="0" style="border:0"></iframe>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+
+<!--==========================================
+                     SCROLL TO TOP
+===========================================-->
+<div id="scroll-top">
+    <div id="scrollup"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<!--==========================================
+                      FOOTER
+===========================================-->
+
+{#<footer>#}
+{#    <div class="container">#}
+{#        <!--FOOTER DETAILS-->#}
+{#        <p class="text-center">#}
+{#            © Developer#}
+{#            <a href="http://trimatrixlab.com/" target="_blank">#}
+{#                <strong>Trimatrixlab</strong>#}
+{#            </a>#}
+{#        </p>#}
+{#    </div>#}
+{#</footer>#}
+
+<!--==========================================
+                  SCRIPTS
+===========================================-->
+<script src="{% static 'view/jquery-2.1.3.min.js' %}"></script>
+<script src="{% static 'view/bootstrap.min.js' %}"></script>
+<script src="{% static 'view/materialize.min.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI14J_PNWVd-m0gnUBkjmhoQyNyd7nllA"></script>
+<script src="{% static 'view/markerwithlabel.min.js' %}"></script>
+<script src="{% static 'view/retina.min.js' %}"></script>
+<script src="{% static 'view/scrollreveal.min.js' %}"></script>
+<script src="{% static 'view/swiper.jquery.min.js' %}"></script>
+<script src="{% static 'view/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'view/custom.js' %}"></script>
+<script src="{% static 'view/js.js' %}"></script>
+<script src="{% static 'view/source.js' %}"></script>
+<script>
+$("#submit").click(function(e) {
+    e.preventDefault();
+    var original=document.getElementById('form')
+    var fd = new FormData(original);
+    document.getElementById('submit').disabled=true;
+    $.ajax({
+        type: "POST",
+        url: "{% url 'email' %}",
+        data:fd,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+
+            alert(result);
+                original.reset();
+                document.getElementById('submit').disabled=false;
+        },
+        error: function(result) {
+
+            alert(result);
+                document.getElementById('submit').disabled=false;
+        }
+    });
+});
+</script>
+</body>
+</html>

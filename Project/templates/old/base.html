@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>AWS</title>
+  <link href="{% static  'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <link href="{% static 'lib/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/gritter/css/jquery.gritter.css' %}" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+  <script src="{% static 'lib/chart-master/Chart.js'  %}"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+
+    <style>
+#upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    padding: 1rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Uploaded image result';
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+body {
+    min-height: 100vh;
+    background-color: black;
+    background-image: linear-gradient(147deg, #757f9a 0%, #0c1a33 100%);
+}
+
+        {% block css %}
+        {% endblock %}
+
+    </style>
+{% block headjs %}
+{% endblock %}
+</head>
+<body>
+<section id="container">
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        </div>
+        <a href="/" class="logo"><b>Projex<span>Connect</span></b></a>
+        <div class="nav notify-row" id="top_menu">
+            <ul class="nav top-menu">
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="">
+                        <i class="fa fa-users"></i>
+                        <span class="badge bg-theme">{{ tusers }}</span>
+                    </a>
+                </li>
+                <li id="header_inbox_bar" class="dropdown">
+                    <a data-toggle="dropdown"  href="">
+                        <i class="fa fa-tasks"></i>
+                        <span class="badge bg-theme">{{ trecords }}</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+           <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+     <li><a class="logout" href="{% url 'logout_func' %}">Logout</a></li>
+            </ul>
+        </div>
+
+
+    </header>
+
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+
+            <ul class="sidebar-menu" id="nav-accordion">
+
+                <p class="centered"><a href="/"><img src="{{ request.user.profile.img.url }}" class="img-circle"
+                                                     width="80"></a></p>
+                <h5 class="centered">{{request.user.username|title}}</h5>
+                <li class="mt">
+                    <a class="active" href="{% url 'index' %}">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sub-menu dcjq-parent-li">
+            <a href="{% url 'history' %}" class="dcjq-parent">
+              <i class="fa fa-desktop"></i>
+                <span>History</span></a>
+
+          </li>
+              {% if profile == 1 %}
+                <li class="sub-menu dcjq-parent-li">
+            <a href="{% url 'profile_create' %}" class="dcjq-parent">
+              <i class="fa fa-plus-circle"></i>
+                <span>Add Personal Profile</span></a>
+
+          </li>
+                {% else %}
+                <li class="sub-menu dcjq-parent-li">
+            <a href="{% url 'edit_profile' id=request.user.social_profile.pid.id %}" class="dcjq-parent">
+              <i class="fa fa-edit"></i>
+                <span>Edit Personal Profile</span></a>
+
+             <li class="sub-menu dcjq-parent-li">
+            <a href="{% url 'view_profile' id=request.user.social_profile.pid.id %}" target="_blank" class="dcjq-parent">
+              <i class="fa fa-eye"></i>
+                <span>View Personal Profile</span></a>
+
+          </li>
+
+                {% endif %}
+            {% if request.user.is_superuser %}
+                 <li class="sub-menu dcjq-parent-li">
+            <a href="{% url 'statistics'  %}"  class="dcjq-parent">
+              <i class="fa fa-eye"></i>
+                <span>Statistics</span></a>
+
+          </li>
+   <li class="sub-menu dcjq-parent-li">
+            <a href="{% url 'profiles'  %}"  class="dcjq-parent">
+              <i class="fa fa-eye"></i>
+                <span>All Social Profiles</span></a>
+
+          </li>
+{% endif %}
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="row">
+                <section>
+                 <div class="container py-5">
+
+{% block body %}
+{% endblock body %}
+                 </div>
+                </section>
+
+            </div>
+        </section>
+    </section>
+</section>
+
+<script src="{% static 'lib/jquery/jquery.js' %}"></script>
+<script src="{% static 'lib/bootstrap/js/bootstrap.js' %}"></script>
+<script class="include" type="text/javascript" src="{% static 'lib/jquery.dcjqaccordion.2.7.js' %}"></script>
+<script src="{% static 'lib/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'lib/jquery.nicescroll.js' %}" type="text/javascript"></script>
+<script src="{% static 'lib/jquery.sparkline.js' %}"></script>
+<!--common script for all pages-->
+<script src="{% static 'lib/common-scripts.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/gritter/js/jquery.gritter.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/gritter-conf.js' %}"></script>
+<!--script for this page-->
+<script src="{% static 'lib/sparkline-chart.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+        var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Welcome to AMS!',
+            // (string | mandatory) the text inside the notification
+            text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',
+            // (string | optional) the image to display on the left
+            image: '/static/default/tool_pic.jpg',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: false,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: 8000,
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+
+        return false;
+    });
+</script>
+<script type="application/javascript">
+
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+ $('#dimi')
+                .attr('src', e.target.result);
+ document.getElementById("capture").disabled=true
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(function () {
+    $('#upload').on('change', function () {
+
+        var FileUploadPath = this.value;
+        if (FileUploadPath == '') {
+            alert("Please upload an image");
+
+        } else {
+            var Extension = FileUploadPath.substring(
+                FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+        }
+        if (Extension == "gif" || Extension == "png" || Extension == "bmp"
+                    || Extension == "jpeg" || Extension == "jpg") {
+
+// To Display
+             var input = event.srcElement;
+                  readURL(input);
+
+                 var fileName =  document.getElementById( 'upload' ).files[0].name;
+                 document.getElementById( 'upload-label' ).textContent = 'File name: ' + fileName;
+
+            }
+
+//The file upload is NOT an image
+else {
+                alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
+
+
+            }
+
+    });
+});
+
+</script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
+<link rel="javascript" href="{% static 'css/main.js' %}">
+<script src="{% static 'css/main.js' %}" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script>
+const shareDialog = document.querySelector('.share-dialog');
+const closeButton = document.querySelector('.close-button');
+function myFunction(id){
+  if (navigator.share) {
+   navigator.share({
+      title: 'Share Link',
+      url: '/view_profile/'+id+'/'
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+    } else {
+       alert("Your Connection is not Secure");
+    }
+
+
+closeButton.addEventListener('click', event => {
+  shareDialog.classList.remove('is-open');
+});
+     }
+    </script>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ graph_label|safe }},
+        datasets: [{
+           label: 'Last Seven Days',
+            data: {{ graph_data|safe }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+
+ scales: {
+            xAxes: [{
+               gridLines: {
+                  display: false
+               }
+            }],
+            yAxes: [{
+               ticks: {
+
+                   stepSize: 1
+               },
+               gridLines: {
+                  display: false
+               }
+            }]
+       }
+
+    }
+});
+</script>
+{% block innerjs %}
+{% endblock %}
+</body>
+
+</html>

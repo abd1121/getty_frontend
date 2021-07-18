@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Trimatrix Lab">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+
+    <title>Personal Profile</title>
+     <link href="{% static  'img/favicon.png' %}" rel="icon">
+
+    <!--APPLE TOUCH ICON-->
+    <link rel="apple-touch-icon" href="images/site/apple-touch-icon.png">
+
+
+    <!-- GOOGLE FONT -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+
+    <!-- MATERIAL ICON FONT -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- FONT AWESOME -->
+      <link href="{% static 'lib/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+
+    <!-- ANIMATION -->
+    <link href="{% static 'view/animate.min.css' %}" rel="stylesheet">
+    <!-- MAGNIFICENT POPUP -->
+    <link href="{% static 'view/magnific-popup.css' %}" rel="stylesheet">
+    <!-- SWIPER -->
+    <link href="{% static 'view/swiper.min.css' %}" rel="stylesheet">
+    <!-- MATERIALIZE -->
+    <link href="{% static 'view/materialize.css' %}" rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <!-- CUSTOM STYLE -->
+    <link href="{% static 'view/style.css' %}" id="switch_style" rel="stylesheet">
+    <!--TOGGLE-->
+    <link href="{% static 'view/toggle.css' %}" rel="stylesheet">
+<style>
+    html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system,BlinkMacSystemFont,San Francisco,Helvetica Neue,Helvetica,Ubuntu,Roboto,Noto,Segoe UI,Arial,sans-serif;
+}
+
+.hidden {
+  display: none;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 7px;
+}
+
+button, .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #777;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+button:hover, .button:hover {
+  border-color: #cdd;
+}
+
+.share-button, .copy-link {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.share-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.share-dialog {
+  display: none;
+  width: 95%;
+  max-width: 500px;
+  box-shadow: 0 8px 16px rgba(0,0,0,.15);
+  z-index: -1;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.share-dialog.is-open {
+  display: block;
+  z-index: 2;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.targets {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  margin-bottom: 20px;
+}
+
+.close-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.close-button svg {
+  margin-right: 0;
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.pen-url {
+  margin-right: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+
+<!--==========================================
+                  PRE-LOADER
+===========================================-->
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="box-holder animated bounceInDown">
+                <span class="load-box"><span class="box-inner"></span></span>
+            </div>
+            <!-- NAME & STATUS -->
+            <div class="text-holder text-center">
+                <h2>{{ record.name }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==========================================
+                    HEADER
+===========================================-->
+<header id="home">
+
+    <!--HEADER BACKGROUND-->
+    <div class="header-background section" style="background-image: url({{ record.cover_img.url }})"></div>
+
+</header>
+
+
+<!--==========================================
+                   V-CARD
+===========================================-->
+<div id="v-card-holder" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <!-- V-CARD -->
+                <div id="v-card" class="card">
+
+                    <!-- PROFILE PICTURE -->
+                    <div id="profile" class="right">
+                        <img alt="profile-image" class="img-responsive" src="{{ record.prof_img.url }}">
+                        <div class="slant"></div>
+
+                        <!--EMPTY PLUS BUTTON-->
+                        <div class="btn-floating btn-large add-btn"><a href="{% url 'login_func' %}"><i class="material-icons">add</i></a></div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <!-- NAME & STATUS -->
+                        <div class="info-headings">
+                            <h4 class="text-uppercase left">{{ record.name }}</h4>
+                        </div>
+
+                        <!-- CONTACT INFO -->
+                        <div class="infos">
+                            <ul class="profile-list">
+                                <li class="clearfix">
+                                    <span class="title"><i class="material-icons">email</i></span>
+                                    <span class="content">{{ record.email }}</span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="title"><i class="material-icons">phone</i></span>
+                                    <span class="content">{{ record.contact }}</span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="title"><i class="material-icons">place</i></span>
+                                    <span class="content">{{ record.address }}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <!--LINKS-->
+                        <div class="links">
+                            <!-- FACEBOOK-->
+                            <a href="{{ record.facebook }}" id="first_one" target="_blank"
+                               class="social btn-floating indigo"><i
+                                    class="fa fa-facebook"></i></a>
+                            <!-- TWITTER-->
+                            <a href="{{ record.twitter }}" target="_blank" class="social  btn-floating blue" ><i
+                                    class="fa fa-twitter"></i></a>
+                            <!-- GOOGLE+-->
+                            <a href="{{ record.instagram }}" target="_blank" class="social  btn-floating red"><i
+                                    class="fa fa-instagram"></i></a>
+                            <!-- LINKEDIN-->
+                            <a href="{{ record.linkedin }}" target="_blank" class="social  btn-floating blue darken-3"><i
+                                    class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==========================================
+                   ABOUT
+===========================================-->
+<div id="about" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DETAILS -->
+                <div id="about-card" class="card">
+                    <div class="card-content">
+                        <!-- ABOUT PARAGRAPH -->
+                        <p>
+                           {{ record.about }}
+                        </p>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div id="about-btn" class="card-action">
+                        <input type="hidden" value="{{ request.build_absolute_uri }}" id="qrlink">
+
+                        <div id="qrcode" align="center"></div>
+                        <a href="" target="_blank" download="QR.png" id="dqr"></a>
+
+                        <div class="about-btn">
+                            <!-- DOWNLOAD CV BUTTON -->
+                           <a align="center"  type="button" style="display: none; color: #06A763" class="fa fa-download" id="qbutton" onclick="downloadmyqr()" title="Download QR Code"> QR Code</a></span>
+                            <button class="btn waves-effect  share-button fa fa-share" title="Share this Profile">
+Share
+
+</button>
+                            <br>
+                            <form method="post" >
+                                {% csrf_token %}
+                               <button type="submit" class="btn waves-effect fa fa-download" title="Download VCard"> VCard</button>
+                            </form>
+                            <!-- CONTACT BUTTON -->
+                            <button  class="btn waves-effect fa fa-plus-square" title="Generate QR Code" onclick="myqr()"> QR Code</button>
+
+                        </div>
+<div class="share-dialog">
+  <header>
+    <h3 class="dialog-title">Share this pen</h3>
+    <button class="close-button"><svg><use href="#close"></use></svg></button>
+  </header>
+  <div class="targets">
+    <a class="button">
+      <svg>
+        <use href="#facebook"></use>
+      </svg>
+      <span>Facebook</span>
+    </a>
+
+    <a class="button">
+      <svg>
+        <use href="#twitter"></use>
+      </svg>
+      <span>Twitter</span>
+    </a>
+
+    <a class="button">
+      <svg>
+        <use href="#linkedin"></use>
+      </svg>
+      <span>LinkedIn</span>
+    </a>
+
+    <a class="button">
+      <svg>
+        <use href="#email"></use>
+      </svg>
+      <span>Email</span>
+    </a>
+  </div>
+  <div class="link">
+    <div class="pen-url">{{ request.get_full_path }}</div>
+    <button class="copy-link">Copy Link</button>
+  </div>
+</div>
+
+
+<svg class="hidden" style="display: none">
+  <defs>
+    <symbol id="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></symbol>
+
+    <symbol id="facebook" viewBox="0 0 24 24" fill="#3b5998" stroke="#3b5998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></symbol>
+
+    <symbol id="twitter" viewBox="0 0 24 24" fill="#1da1f2" stroke="#1da1f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></symbol>
+
+    <symbol id="email" viewBox="0 0 24 24" fill="#777" stroke="#fafafa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></symbol>
+
+    <symbol id="linkedin" viewBox="0 0 24 24" fill="#0077B5" stroke="#0077B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></symbol>
+
+    <symbol id="close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></symbol>
+  </defs>
+</svg>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==========================================
+                  CONTACT
+===========================================-->
+<section id="contact" class="section">
+    <div class="container">
+        <!-- SECTION TITLE -->
+        <div class="section-title">
+            <h4 class="text-uppercase text-center"><img src="{% static 'view/envelope.png' %}" alt="demo">Contact</h4>
+        </div>
+        <div class="row">
+            <div id="contact-card" class="col-md-5 col-sm-12 col-xs-12">
+                <!-- CONTACT FORM -->
+                <div class="card">
+                    <div class="card-content">
+                        <form id="form" name="form">
+                            <!-- NAME -->
+                            {% csrf_token %}
+                            <input type="hidden" id="receipt" name="receipt" value="{{ record.email }}">
+                            <div class="input-field">
+                                <input id="first_name" type="text" class="validate" name="first_name" required>
+                                <label for="first_name">Name</label>
+                            </div>
+                            <!--SUBJECT-->
+                            <div class="input-field">
+                                <input id="sub" type="text" class="validate" name="sub">
+                                <label for="sub">Subject</label>
+                            </div>
+                            <!--EMAIL-->
+                            <div class="input-field">
+                                <input id="sender_email" type="email" class="validate" name="sender_email" required>
+                                <label for="email">Email</label>
+                            </div>
+                            <!--MESSAGE-->
+                            <div class="input-field">
+                                <textarea id="message" class="materialize-textarea" name="message"
+                                          required></textarea>
+                                <label for="textarea1">Message</label>
+                            </div>
+                            <!-- SEND BUTTON -->
+                            <div class="contact-send">
+                                <button id="submit" name="contactSubmit" type="submit" value="Submit"
+                                        class="btn waves-effect">Send
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <!--FORM LOADER-->
+                    <div id="form-loader" class="progress is-hidden">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <!-- CONTACT MAP -->
+                <div id="map-card" class="card">
+                    <!-- MAP -->
+{#                    <div id="myMap"></div>#}
+                    <iframe src="https://maps.google.com/maps?q={{ record.latitude }},{{ record.longitude }}&z=15&output=embed" height="430px" frameborder="0" style="border:0"></iframe>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+
+<!--==========================================
+                     SCROLL TO TOP
+===========================================-->
+<div id="scroll-top">
+    <div id="scrollup"><i class="fa fa-angle-up"></i></div>
+</div>
+
+                  SCRIPTS
+===========================================-->
+<script src="{% static 'view/jquery-2.1.3.min.js' %}"></script>
+<script src="{% static 'view/bootstrap.min.js' %}"></script>
+<script src="{% static 'view/materialize.min.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI14J_PNWVd-m0gnUBkjmhoQyNyd7nllA"></script>
+<script src="{% static 'view/markerwithlabel.min.js' %}"></script>
+<script src="{% static 'view/retina.min.js' %}"></script>
+<script src="{% static 'view/scrollreveal.min.js' %}"></script>
+<script src="{% static 'view/swiper.jquery.min.js' %}"></script>
+<script src="{% static 'view/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'view/custom.js' %}"></script>
+<script src="{% static 'view/js.js' %}"></script>
+<script src="{% static 'view/source.js' %}"></script>
+<script src="{% static 'js/qrcode.min.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+</body>
+</html>

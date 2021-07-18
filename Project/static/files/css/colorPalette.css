@@ -1,0 +1,94 @@
+/* ==================================================== */
+/*                  COLOR PALETTE */
+/* ==================================================== */
+
+.color-palette {
+  height: 80px;
+  background-color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 90%;
+  padding: 0px 20px;
+  box-shadow: 2px 3px 7px rgba(85, 84, 84, 0.15);
+  border-radius: 8px;
+}
+
+.color {
+  height: 47px;
+  width: 47px;
+  border-radius: 50%;
+  box-shadow: 2px 3px 7px rgba(85, 84, 84, 0.15);
+}
+
+.color2 {
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+  box-shadow: 2px 3px 7px rgba(85, 84, 84, 0.15);
+  /* margin-right: 5px; */
+}
+.color2:hover {
+  cursor: pointer;
+}
+.color:hover {
+  cursor: pointer;
+}
+
+.qr-color-selected {
+  border: 5px solid #fff;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
+.color-selected {
+  border: 3px solid #fff;
+  border-radius: 18px;
+  height: 30px;
+  width: 30px;
+}
+.white {
+  background-color: #fff;
+}
+.red {
+  background-color: #f44336;
+}
+.blue {
+  background-color: #2196f3;
+}
+.green {
+  background-color: #4caf50;
+}
+.orange {
+  background-color: #ff9800;
+}
+.pink {
+  background-color: #e91e63;
+}
+.purple {
+  background-color: #9c27b0;
+}
+.indigo {
+  background-color: #3f51b5;
+}
+.teal {
+  background-color: #009688;
+}
+.brown {
+  background-color: #795548;
+}
+.grey {
+  background-color: #9e9e9e;
+}
+.color-picker {
+  background-color: var(--dark-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.color-picker input {
+  visibility: hidden;
+  position: absolute;
+}

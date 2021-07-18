@@ -1,0 +1,273 @@
+@import url("./colors.css");
+
+.top-bar {
+  width: 83%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: var(--white);
+  position: fixed;
+  z-index: 10;
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+}
+
+#nav-menu {
+  display: none;
+}
+.profile-view {
+  display: flex;
+  width: 15%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.user-name-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-image {
+  width: 43px;
+  height: 43px;
+  border-radius: 4px;
+}
+.user-name-group p {
+  margin: 0;
+}
+
+.nav-bar {
+  /* visibility: hidden; */
+  width: 15%;
+  padding: 1%;
+  box-shadow: 1px 0px 0px rgba(58, 69, 75, 0.1);
+  z-index: 2;
+  height: 100vh;
+  background-color: var(--white);
+  position: fixed;
+}
+
+.nav-bar-content {
+  margin-top: 100px;
+}
+.nav-bar-logo {
+  position: absolute;
+  left: 1%;
+  top: 1%;
+  width: 40px;
+}
+.nav-bar-element {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 10px;
+  border-radius: 6px;
+}
+
+.nav-bar-element:hover{
+    cursor:pointer;
+    background-color: var(--light-blue);
+}
+.nav-bar-element-selected {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 10px;
+  border-radius: 6px;
+  background-color: var(--light-blue);
+}
+
+.nav-bar-icon {
+  margin: 10px;
+}
+.nav-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-blue);
+  opacity: 1;
+}
+
+#create-new-profile-button {
+  background-color: var(--dark-blue);
+  justify-content: center;
+}
+
+#create-new-profile-button .nav-label {
+  color: var(--white);
+}
+
+#create-new-profile-button .nav-bar-icon {
+  margin-left: 0;
+}
+
+.main-body {
+  display: flex;
+  background-color: var(--bg-blue);
+  width: 83%;
+  min-height: 100vh;
+  float: right;
+  /* overflow: hidden; */
+  justify-content: center;
+}
+
+.main-pane {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#dashboard-area {
+  display: none;
+}
+
+#scanning-screen-area {
+  display: none;
+}
+
+#scan-card-area {
+  /* display: none; */
+}
+
+#create-getty-profile-area {
+  display: none;
+}
+
+#scanning-loader {
+  display: none;
+}
+
+#scanning-completed-screen {
+  display: none;
+}
+
+.nav-dropdown {
+  border-radius: 4px;
+  /* background-color: rgba(222, 239, 255, 0.3); */
+}
+#my-profile-button {
+  border: 1px solid var(--strokes-blue);
+  justify-content: space-around;
+}
+#nav-profile-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.dropdown-label {
+  font-weight: normal;
+  font-size: 14px;
+  color: var(--text-blue);
+  opacity: 1;
+  padding: 0 10px;
+}
+.delete-label {
+  color: var(--red);
+}
+
+#delete-profile-button:hover {
+  background-color: #ffe8e8;
+}
+
+.nav-dropdown-list {
+  display: none;
+  /* background-color: rgba(222, 239, 255, 0.3); */
+
+  list-style-type: none;
+  padding: 0 10px;
+}
+.nav-dropdown-list li {
+  justify-content: flex-start;
+  padding: 0 10px;
+}
+
+.nav-dropdown-list li:hover {
+  /* background-color: var(--bg-blue2); */
+  background-color: rgba(222, 239, 255, 0.5);
+}
+
+.dropdown-options {
+  list-style-type: none;
+  padding: 0%;
+  position: absolute;
+  background-color: var(--white);
+  width: 350px;
+  border-radius: 8px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+}
+
+.dropdown-options li {
+  padding: 10px;
+  border-radius: 8px;
+}
+.dropdown-options li:hover {
+  background-color: var(--bg-blue);
+}
+
+.selected-dropdown-option {
+  border: 1px solid var(--strokes-blue);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .nav-bar {
+    width: 25%;
+  }
+  .main-body {
+    width: 75%;
+  }
+  .top-bar {
+    width: 75%;
+  }
+  .profile-view {
+    width: 30%;
+  }
+}
+
+.tick::before {
+  content: "\2714";
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .nav-bar {
+    width: 40vw;
+    visibility: hidden;
+    transition: width 1s ease;
+  }
+  .main-body {
+    width: 100%;
+    /* background-color: cadetblue; */
+  }
+  .main-pane {
+    width: 100%;
+    /* background-color: burlywood; */
+  }
+  .top-bar {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .profile-view {
+    width: 40%;
+  }
+  #nav-menu {
+    display: block;
+    padding: 20px;
+    font-size: 30px;
+    color: var(--dark-blue);
+    transform: rotate(90deg);
+  }
+}
+
+.expanded {
+  width: calc(100% - 40px);
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}

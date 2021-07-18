@@ -1,0 +1,153 @@
+{% extends 'old/base1.html' %}
+ {% block css %}
+     th{
+  color: white;
+}
+        {% endblock %}
+{% block body %}
+    {% if msg %}
+    <div class="alert alert-info alert-dismissable" role="alert">
+ <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true" style="margin-right: 30px">X</span>
+  </button>
+      {{msg}}
+    </div>
+{% endif %}
+    <h1 style="color: white">Edit Profile</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<table class="table" cellspacing="20px" cellpadding="20px">
+  <tbody>
+    <tr>
+      <th scope="row">Name</th>
+      <td><input type="text" name="name" id="name"   size="50" value="{{ record.name }}"  pattern="[a-zA-Z ]+" required></td>
+    </tr>
+     <tr>
+      <th scope="row">Email</th>
+      <td><input type="email" name="email" id="email"  value="{{ record.email }}" size="50" required></td>
+    </tr>
+
+    <tr>
+      <th scope="row">Address</th>
+      <td><input type="text" name="address" id="address"  size="50" value="{{ record.address }}" required></td>
+    </tr>
+      <tr>
+      <th scope="row">Contact</th>
+      <td><input type="text" name="con" id="con"  size="50" value="{{ record.contact }}" required></td>
+    </tr>
+  <tr>
+      <th scope="row">About</th>
+      <td><input type="text" name="about" id="about"  size="50" value="{{ record.about }}" required></td>
+    </tr>
+  <tr>
+      <th scope="row">Profile Picture</th>
+      <td><input type="file" class="form-control-file" id="p" name="p" onchange="profile_pic(this)"><br><img src="{{ record.prof_img.url }}" id="profile" class="img-circle"
+                                                                width="80"></td>
+    </tr>
+
+    <tr>
+      <th scope="row">Cover Photo</th>
+      <td><input type="file" class="form-control-file" id="c" name="c" onchange="cover_pic(this)"><br><img src="{{ record.cover_img.url }}" id="cover" class="img-circle"
+                                                                width="80"></td>
+    </tr>
+
+   <tr>
+      <th scope="row">Social Accounts</th>
+      <td><input type="text" name="twitter" id="twitter"  value="{{ record.twitter }}"size="50">
+          <input type="text" name="facebook" id="facebook"  value="{{ record.facebook }}" size="50" >
+          <br><br>
+
+      <input type="text" name="linkedin" id="linkedin"  value="{{ record.linkedin }}" size="50" >
+          <input type="text" name="instagram" id="instagram"  value="{{ record.instagram }}"  size="50" ></td>
+
+    </tr>
+   <tr>
+      <th scope="row">Google Map</th>
+      <td><input type="text"  pattern="^[1-9]\d*(\.\d+)?$" name="latitude" id="latitude"  value="{{ record.latitude }}" size="50" >
+          <input type="text" pattern="^[1-9]\d*(\.\d+)?$" name="longitude" id="longitude" value="{{ record.longitude }}" size="50">
+            </tr>
+
+  </tbody>
+</table>
+
+<button class="btn btn-theme" type="submit" style="height: 30px"><i class="fa fa-save"></i> Update Profile</button>
+<a class="btn btn-danger"  style="height: 30px" href="{% url 'delete_profile'  id=record.pid_id %}" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete Profile</a>
+
+</form>
+
+</div>
+{% endblock body %}
+
+{% block innerjs %}
+    <script type="application/javascript">
+
+    function profile_pic(input) {
+  var FileUploadPath = input.value;
+        if (FileUploadPath == '') {
+            alert("Please upload an image");
+
+        } else {
+            var Extension = FileUploadPath.substring(
+                FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+        }
+        if (Extension == "gif" || Extension == "png" || Extension == "bmp"
+            || Extension == "jpeg" || Extension == "jpg") {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profile')
+                        .attr('src', e.target.result);
+
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        else {
+             alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
+              input.value="";
+              $('#profile')
+                        .attr('src', '');
+
+        }
+    }
+
+   function cover_pic(input) {
+  var FileUploadPath = input.value;
+        if (FileUploadPath == '') {
+            alert("Please upload an image");
+
+        } else {
+            var Extension = FileUploadPath.substring(
+                FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+        }
+        if (Extension == "gif" || Extension == "png" || Extension == "bmp"
+            || Extension == "jpeg" || Extension == "jpg") {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#cover')
+                        .attr('src', e.target.result);
+
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        else {
+             alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
+              input.value="";
+              $('#cover')
+                        .attr('src', '');
+
+        }
+}
+</script>
+<script>
+    $(document).ready(function(){
+window.setTimeout(function() {
+  $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove();
+  });
+}, 5000);
+});
+</script>
+{% endblock %}

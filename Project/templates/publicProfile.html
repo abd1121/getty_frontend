@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="{% static 'files/css/rules.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/colorPalette.css' %}"/>
+    <link rel="stylesheet" href="{% static 'files/css/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/all.min.css' %}" />
+
+    <title>Getty Card</title>
+  </head>
+  <body>
+    <div class="profile-header preview-header">
+      <label class="blue-label">
+        This profile is created on <b>Getty Card</b> platform. You can create a
+        one for yourself too.
+      </label>
+      <div class="row">
+
+        <a href="{% url 'login_func' %}">
+        <div class="transparent-button blue-outlined-btn">
+            <div class="button-txt">Let’s Start Creating your Profile</div>
+        </div>
+          </a>
+
+      </div>
+    </div>
+    {% if record.cover_img %}
+    <img src="{{ record.cover_img.url }}" class="cover-image" alt="" />
+    {% else %}
+    <img src="{% static 'files/assets/Rectangle 1.png' %}" class="cover-image" alt="" />
+    {% endif %}
+    <div class="details-container">
+      <div class="profile-details">
+        <div class="profile-image-div">
+          <img class="profile-image" src="{{ record.prof_img.url }}" />
+        </div>
+        <div class="profile-details-txt">
+          <div>
+            <h1 class="h1 section-heading" id="holder-name" style="{{ prof.name_style|safe }}">{{ record.name|title }}</h1>
+            <div id="designation" style="{{ prof.title_style|safe }}">{{ record.title }} at <b>{{ record.company_name }}</b></div>
+          </div>
+          <div class="row">
+            <div class="row dark-button" id="generate-qr-btn" style="{{ prof.qr_style|safe }}">
+              <i class="fas fa-qrcode" id="qrcode-icon"></i>
+                <form action="{% url 'qr_count' %}" method="post" id="qr_count_form">
+                    {% csrf_token %}
+               <input type="text" name="count" id="count" value="{{ record.pid_id }}" hidden="hidden">
+              <div class="button-txt" onclick="myqr()">Generate QR Code</div>
+                </form>
+            </div>
+            <div class="row dark-button" style="{{ prof.vcf_style|safe }}">
+              <i class="fas fa-download"></i>
+                <form method="post" id="vcfform">
+                    {% csrf_token %}
+             <div type="submit" class="button-txt" onClick="javascript:$('#vcfform').submit();">Download VCF</div>
+                </form>
+            </div>
+            <div class="row dark-button" style="{{ prof.share_style|safe }}">
+              <i class="fas fa-share-alt share-button" ></i>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section-light" id="aboutme-profile-section" style="{{ prof.aboutme_color|safe }}">
+      <div class="profile-section" style="margin-top: 0px">
+        <div class="h1 section-heading" id="aboutme-heading" style="{{ prof.aboutme_caption_style|safe }}">About Me</div>
+        <div class="break"></div>
+        <div class="section-content" id="aboutme-content"  style="{{ prof.aboutme_text_style|safe }}">
+           {{ record.about }}
+        </div>
+      </div>
+    </div>
+    <div class="profile-section-dark" id="aboutCompany-profile-section" style="{{ prof.company_backcolor|safe }}">
+      <div class="profile-section">
+        <div class="h1 white-forecolor" id="company-details-heading" style="{{ prof.company_head_style|safe }}" >
+          Let’s have a quick visit of my Company
+        </div>
+        <div class="break white-break"></div>
+        <div
+          class="row company-details white-forecolor"
+          id="company-details-content"  style="{{ prof.comp_detail_style|safe }}"
+        >
+            {% if record.company_logo %}
+          <img src="{{ record.company_logo.url }}" id="company-logo" class="company-logo" />
+            {% endif %}
+          <div class="company-description-div">
+            <div id="company-name" >{{ record.company_name }}</div>
+            <div id="company-description">
+              {{ record.about_company }}
+              <br />
+              <br />
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if Check >= 1 %}
+    <div class="profile-section-light" id="gallery-section" style="{{ prof.gallery_backcolor }}">
+      <div class="profile-section gallery-section">
+        <div class="h1 section-heading" id="photo-gallery" style="{{ prof.gallery_caption_style|safe }}">Photo Gallery</div>
+        <div class="break"></div>
+      </div>
+      <div class="main-carousel" data-flickity='{ "wrapAround": true }'>
+        {% for i in gallery %}
+          <div class="carousel-cell">
+          <img
+            src="{{ i.image.url }}"
+            alt="orange tree"
+            style="height: 300px"
+          />
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if record.video %}
+    <div class="profile-section-light" id="companyCulture-profile-section" style="{{ prof.culture_backcolor|safe }}">
+      <div class="profile-section">
+        <div class="h1 section-heading" id="company-culture-heading" style="{{ prof.culture_headstyle|safe }}">
+          My Company’s Culture
+        </div>
+        <div class="break"></div>
+        <video src="{{ record.video.url }}" class="promo-video" controls="controls"></video>
+      </div>
+    </div>
+{% endif %}
+    <div class="profile-section">
+      <div class="h1 section-heading" id="get-in-touch-heading"  style="{{ prof.get_touch_style|safe }}">
+        Get in Touch with me
+      </div>
+      <div class="break"></div>
+    </div>
+    <div class="map">
+      <div class="get-in-touch" id="get-in-touch-section" style="{{ prof.contact_form_backcolor|safe }}">
+        <div class="row" style="width: 100%">
+          <h2 class="white-label">Tell Your Queries</h2>
+        </div>
+            <form method="post"id="formdata" enctype="multipart/form-data">
+                {% csrf_token %}
+        <div class="input-section">
+
+          <label class="white-label">Your Name </label>
+          <input
+            type="text"
+            placeholder="write your name here"
+            id="sender-name",
+            name="sender-name",
+            required
+          />
+        </div>
+        <div class="input-section">
+          <label class="white-label">Your Email </label>
+          <input
+            type="text"
+            placeholder="write your email here"
+            id="sender-email",
+            name="sender-email",
+            required
+          />
+        </div>
+        <div class="input-section">
+          <label class="white-label">Your Message </label>
+          <textarea
+            id="sender-message"
+            name="sender-message"
+            placeholder="Tell us your query!"
+            required
+          ></textarea>
+        </div>
+        <div class="input-section">
+          <label for="message-attachment" class="file-input-label white-label">
+            <input
+              type="file"
+              id="message-attachment"
+              name="message-attachment"
+            />
+            <img src="{% static 'files/assets/uploadWhite.png' %}" class="attachment-icon" />
+            <label class="white-label">Upload file here</label>
+          </label>
+        </div>
+        <div class="input-section">
+          <input
+            type="button"
+            class="white-button"
+            id="send-msg-btn"
+            value="Send" onclick="send_email()"
+          />
+
+        </div>
+            </form>
+      </div>
+
+    </div>
+
+    <div class="profile-section-dark" id="footer-section" style="{{ prof.footer_backcolor|safe }}">
+      <div class="profile-section footer-section">
+        <div class="row">
+          <div class="column footer-column">
+              {% if record.company_logo %}
+            <img src="{{ record.company_logo.url }}" class="footer-logo"/>
+              {% endif %}
+            <label
+              class="white-label row footer-element"
+              id="holder-email-section"
+              style="{{ prof.email_style|safe }}"
+            >
+              <b>Email ID:&nbsp;</b>
+              <div id="holders-email">{{ record.email }}</div>
+            </label>
+            <label
+              class="white-label row footer-element"
+              id="holder-contact-section"
+              style="{{ prof.phone_style|safe }}"
+            >
+              <b>Contact:&nbsp;</b>
+              <div id="holders-contact">{{ record.contact }}</div>
+            </label>
+          </div>
+        {% if record.facebook_social_links %}
+          <div class="row social-links">
+            <a href={{ record.facebook_social_links }} id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-facebook-f social-icon"></i>
+              </div>
+            </a>
+              {% endif %}
+        {% if record.instagram_social_links %}
+            <div class="vertical-line"></div>
+            <a href={{ record.instagram_social_links }} id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-instagram social-icon"></i>
+              </div>
+            </a>
+        {% endif %}
+        {% if record.linkedin_social_links %}
+            <div class="vertical-line"></div>
+            <a href={{ record.linkedin_social_links }} id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-linkedin social-icon"></i>
+              </div>
+            </a>
+        {% endif %}
+        {% if record.twitter_social_links %}
+            <div class="vertical-line"></div>
+            <a href={{ record.twitter_social_links }} id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-twitter social-icon"></i>
+              </div>
+            </a>
+        {% endif %}
+        {% if record.website_social_links %}
+            <div class="vertical-line"></div>
+            <a href={{ record.website_social_links }} id="facebook">
+              <div class="social-icon-bg">
+                <i class="fab fa-youtube social-icon"></i>
+              </div>
+            </a>
+        {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-----------Asad---->
+
+
+<div id="Code" align="center"></div>
+<input type="hidden" value={{ record.qr_color }} id='qrcolor'>
+<input type="hidden" value={{ record.qr_type }} id="qrtype">
+    <input type="hidden" value="{{ request.build_absolute_uri }}" id="qrlink">
+     <a href="" target="_blank" download="QR.png" id="dqr"></a>
+{% if record.qr_logo %}
+<img src="{{ record.qr_logo.url }}" id='qrlogo' hidden>
+{% endif %}
+ <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script src="{% static 'files/myjs/PublicProfile.js' %}"></script>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  </body>
+
+</html>

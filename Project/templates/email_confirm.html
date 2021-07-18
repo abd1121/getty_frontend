@@ -1,0 +1,22 @@
+
+{% extends 'old/base1.html' %}
+
+{% block body %}
+    {% load static %}
+    <div class="signup">
+      <div class="left-pane">
+        <h1>Email Confirmation Require</h1>
+        <h3>
+        <p align="justify">
+              Thank you for registeration! Please verify your email from Gmail.
+
+          </p>
+     <a href="{% url 'login_func' %}" class="btn btn-theme btn-block">Login</a><br>
+        </h3>
+      </div>
+      <div class="right-pane">
+        <img src="{% static 'files/assets/logo.png' %}" alt="Logo" class="logo" />
+        <img src="{% static 'files/assets/reset.svg' %}" alt="Image" class="svg" />
+      </div>
+    </div>
+  {% endblock %}

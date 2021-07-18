@@ -1,0 +1,274 @@
+@import url("./colors.css");
+
+.upload-area {
+  display: flex;
+}
+
+.upload-card-area {
+  background-color: var(--light-blue);
+  border: 2px dotted var(--strokes-blue2);
+  height: 250px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-blue);
+  margin: 20px;
+}
+
+.upload-card-area:hover {
+  cursor: pointer;
+}
+input[type="file"] {
+  display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 11;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.crop-modal-content {
+  background-color: var(--white);
+  width: 42vw;
+  min-height: 73vh;
+  margin: 5% auto;
+  padding: 30px;
+  padding-top: 10px;
+  border-radius: 4px;
+}
+
+#download-vcf-modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.download-vcf-modal-contents {
+  background-color: var(--white);
+  width: 364px;
+  height: 341px;
+  border-radius: 4px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+.uploaded-image {
+  border-radius: 4px;
+  width: 100%;
+}
+
+#to-be-scanned-img {
+  width: 30vw;
+}
+
+#scanning-area {
+  padding: 50px;
+  background-color: #eff4f9;
+  border: 1px solid #dde4f4;
+  border-radius: 6px;
+}
+
+#back-to-select-card,
+#back-to-scan-card {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  margin-top: 100px;
+}
+
+#start-scanning-button {
+  align-self: flex-end;
+  margin-top: 20px;
+  margin-right: 0;
+}
+
+.cross-btn {
+  background-color: var(--bg-red);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cross::after {
+  content: "\00d7";
+  color: var(--red);
+  font-size: 1.5rem;
+}
+
+.notification {
+  background-color: var(--white);
+  width: 35vw;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.loader {
+  width: 5%;
+  height: 2px;
+  background-color: var(--green);
+}
+
+#scanner-bar {
+  height: 5px;
+  background-color: var(--green);
+  width: 40vw;
+  position: absolute;
+  display: none;
+}
+
+#scanning-completed-notification {
+  background-color: #dcfae2;
+}
+#scanning-completed-notification label {
+  color: black;
+  opacity: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tick-icon {
+  background-color: #06a052;
+  color: var(--white);
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+}
+
+.desc-component {
+  width: calc(35vw + 38px);
+  /* padding: 20px; */
+}
+
+.desc-component textarea {
+  border: 1px solid var(--strokes-blue);
+  overflow: auto;
+  resize: none;
+  width: 100%;
+  height: 100px;
+  border-radius: 4px;
+}
+
+.desc-component textarea:focus {
+  outline: none;
+}
+.scanned-component {
+  display: flex;
+  width: calc(35vw + 38px);
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  margin-top: 20px;
+}
+
+.scanned-p {
+  font-weight: 500;
+  margin: 0;
+}
+.scanned-row {
+  border-bottom: 1px solid var(--strokes-blue);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px 10px 0px;
+  /* padding-left: 0; */
+}
+.scanned-label {
+  color: black;
+  opacity: 1;
+}
+.scanned-pane {
+  width: 87%;
+}
+
+.scanned-icon {
+  background-color: var(--white);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#download-vcf-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 14px;
+  width: 25%;
+  align-self: flex-end;
+  margin-bottom: 50px;
+}
+
+#copied-successfully-msg {
+  background-color: var(--bg-blue2);
+  color: var(--text-blue);
+  font-size: 10px;
+  padding: 7px;
+  border-radius: 4px;
+  position: absolute;
+  display: none;
+}
+
+/* ============================================ */
+/*               MEDIA QUERIES                  */
+/* ============================================ */
+@media only screen and (max-width: 1200px) {
+  .upload-card-area {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #scan-card-area-label {
+    width: 70%;
+  }
+  .upload-area {
+    flex-direction: column;
+  }
+  .upload-card-area {
+    height: 150px;
+    width: 150px;
+  }
+  #scanning-loader {
+    width: calc(90vw - (40px));
+  }
+  #scanning-completed-screen {
+    width: 100%;
+  }
+  #scanning-completed-notification,
+  .desc-component,
+  .scanned-component {
+    width: 80%;
+  }
+  #download-vcf-button {
+    width: auto;
+  }
+  #filename {
+    word-wrap: break-word;
+    width: 80%;
+  }
+}

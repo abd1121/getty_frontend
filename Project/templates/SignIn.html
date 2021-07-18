@@ -1,0 +1,44 @@
+{% extends 'old/base1.html' %} {% block body %} {% load static %}
+<div class="signup">
+  <div class="left-pane">
+    <h1>Sign in to your account</h1>
+    <h3>
+      Login with Email & Password. In case of any problem you can contact us
+    </h3>
+    <form class="signup-form" method="POST">
+      {% csrf_token %}
+      <div class="input-element">
+        <label for="uid">User ID</label>
+        <input type="text" id="uid" name="uid" class="input-box" />
+      </div>
+      <div class="input-element">
+        <div class="row">
+          <label for="password">Password</label>
+          <a href="{% url 'reset_password' %}">Forgot Password?</a>
+        </div>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="input-box"
+        />
+      </div>
+      <div class="input-element">
+        <input type="submit" value="Sign In" class="dark-button s-btn" />
+        <label class="last-label"
+          >Don't have an account?
+          <a href="{% url 'signup' %}">Sign Up Here</a></label
+        >
+      </div>
+    </form>
+  </div>
+  <div class="right-pane">
+    <img src="{% static 'files/assets/logo.png' %}" alt="Logo" class="logo" />
+    <img
+      src="{% static 'files/assets/SignInImg.svg' %}"
+      alt="Image"
+      class="svg"
+    />
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'old/base1.html' %}
+{% block css %}
+    .card{
+    max-height: 100px;
+}
+{% endblock %}
+{% block headjs %}
+{% endblock %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+<div class="grey-bg container-fluid">
+<section id="stats-subtitle">
+
+  <div class="row" >
+    <div class="col-xl-6 col-md-12" >
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <i class="icon-plus primary font-large-2 mr-2"></i>
+              </div>
+              <div class="media-body">
+                <h4>Users</h4>
+                <span>Total Registered Users</span>
+              </div>
+              <div class="align-self-center">
+                <h1>{{ tusers }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-md-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <i class="icon-user warning font-large-2 mr-2"></i>
+              </div>
+              <div class="media-body">
+                <h4>Profiles</h4>
+                <span>Total Profiles</span>
+              </div>
+              <div class="align-self-center">
+                <h1>{{ tprofiles }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+<canvas id="myChart" width="400" height="100" style="background-color: white"></canvas>
+</div>
+<div>
+
+</div>
+{% endblock body %}
+{% block innerjs %}
+
+{% endblock %}

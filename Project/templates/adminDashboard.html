@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="{% static 'files/css/rules.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Index.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/adminDashboard.css'%}" />
+
+    <title>Getty Card</title>
+    <style>
+        .dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: beige;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+
+
+}
+
+
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+    </style>
+
+      {% block css %}
+      {% endblock %}
+  </head>
+  <body>
+    <div class="main-body">
+      <!-- -----------------------
+              TOP NAV BAR
+      ------------------------- -->
+
+      <div class="top-bar">
+        <div id="nav-menu">|||</div>
+        <div class="profile-view">
+          <img
+            src="{% static 'default/default.png'%}"
+            alt="profile-image"
+            class="profile-image"
+          />
+          <div class="user-name-group">
+            <label class="nav-label" id="user-name">{{ request.user }}</label>
+            <p id="user-role">Admin</p>
+          </div>
+            <div class="dropdown">
+          <img src="{% static 'files/assets/DownArrow.svg'%}" class="dropbtn" onclick="myFunctiontool()" />
+   </div>
+
+  <div class="dropdown-content" id="myDropdown" >
+    <a href="{% url 'logout_func' %}">Logout</a>
+
+  </div>
+
+
+        </div>
+      </div>
+
+      <!-- -----------------------
+              DASHBOARD AREA
+      ------------------------- -->
+            <div class="main-pane" id="admin-dashboard-area">
+
+
+        <h1 class="left-aligned">Quick Stats</h1>
+        <div class="stats-panel" id="quick-stats">
+          <div class="stats-component">
+            <img
+              src="{% static 'files/assets/userIconWhite.svg'%}"
+              class="stats-icon"
+              id="users-stat-icon"
+            />
+            <h1 id="users-stats">{{ users }}</h1>
+            <p>Total Registered Users</p>
+          </div>
+          <div class="stats-component">
+            <img
+              src="{% static 'files/assets/peopleIconWhite.svg'%}"
+              class="stats-icon"
+              id="profile-stat-icon"
+            />
+            <h1 id="profile-stats">{{ profiles }}</h1>
+            <p>Total connect Profiles</p>
+          </div>
+          <div class="stats-component">
+            <img
+              src="{% static 'files/assets/scanStatIcon.svg'%}"
+              class="stats-icon"
+              id="scan-stat-icon"
+            />
+            <h1 id="scan-stats">{{ scans }}</h1>
+            <p>Total Scans</p>
+          </div>
+          <div class="stats-component">
+            <img
+              src="{% static 'files/assets/downloadStats.svg'%}"
+              class="stats-icon"
+              id="downloads-stat-icon"
+            />
+            <h1 id="downloads-stats">{{ dvcf }}</h1>
+            <p>Downloaded VCFs</p>
+          </div>
+          <div class="stats-component">
+            <img
+              src="{% static 'files/assets/qrCodeIcon.svg'%}"
+              class="stats-icon"
+              id="qr-stat-icon"
+            />
+            <h1 id="qr-stats">{{ dqr }}</h1>
+            <p>QR Code Generated</p>
+          </div>
+        </div>
+        <label class="left-aligned"> Registered Users Analytics </label>
+        <div class="row analytics-container">
+          <div class="analytics-histogram">
+            <div class="histogram">
+              <div class="ticks">
+                <div class="h-tick">
+                  <p>2,000</p>
+                  <div class="bottom"></div>
+                </div>
+                <div class="h-tick">
+                  <p>1,600</p>
+                  <div class="bottom"></div>
+                </div>
+                <div class="h-tick">
+                  <p>1,200</p>
+                  <div class="bottom"></div>
+                </div>
+                <div class="h-tick">
+                  <p>800</p>
+                  <div class="bottom"></div>
+                </div>
+                <div class="h-tick">
+                  <p>400</p>
+                  <div class="bottom"></div>
+                </div>
+                <div class="h-tick">
+                  <p>0.00</p>
+                  <div class="bottom"></div>
+                </div>
+              </div>
+              <div class="bars-container">
+                <div class="bar" id="graph-bar1"></div>
+                <div class="bar" id="graph-bar2"></div>
+                <div class="bar" id="graph-bar3"></div>
+                <div class="bar" id="graph-bar4"></div>
+                <div class="bar" id="graph-bar5"></div>
+                <div class="bar" id="graph-bar6"></div>
+                <div class="bar" id="graph-bar7"></div>
+                <div class="bar" id="graph-bar8"></div>
+                <div class="bar" id="graph-bar9"></div>
+                <div class="bar" id="graph-bar10"></div>
+                <div class="bar" id="graph-bar11"></div>
+                <div class="bar" id="graph-bar12"></div>
+              </div>
+              <div class="labels">
+                <div class="x-axis">{{ m_dates.0 }}</div>
+                <div class="x-axis">{{ m_dates.2 }}</div>
+                <div class="x-axis">{{ m_dates.4 }}</div>
+                <div class="x-axis">{{ m_dates.6 }}</div>
+                <div class="x-axis">{{ m_dates.8 }}</div>
+                <div class="x-axis">{{ m_dates.10 }}</div>
+                <div class="x-axis">{{ m_dates.12 }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="column pie-col">
+            <div class="analytics-pie">
+              <div class="row">
+                <div class="column">
+                  <label>This Month</label>
+                  <h2>{{ tmu }}</h2>
+                  <p class="break-word-p">
+                    {{ pm }}% more users registered than last month.
+                  </p>
+                </div>
+                <div class="pie" id="pie1">
+                    {% if pm >= 100 %}
+                    <input type="hidden" id="mcv" value="100">
+                    {% else %}
+                        <input type="hidden" id="mcv" value="{{ pm }}">
+                    {% endif %}
+                    <input type="hidden" id="smv" value="{{ pm }}">
+                  <div class="pie-overlay" id="pie-percent1">{{ pm }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="analytics-pie">
+              <div class="row">
+                <div class="column">
+                  <label>This Month</label>
+                  <h2>{{ sc }}</h2>
+                  <p class="break-word-p">
+                      {{ pp }}% more connect profile created than last month.
+                  </p>
+                </div>
+                <div class="pie" id="pie2">
+                     {% if pp >= 100 %}
+                    <input type="hidden" id="pcv" value="100">
+                    {% else %}
+                        <input type="hidden" id="pcv" value="{{ pp }}">
+                    {% endif %}
+                    <input type="hidden" id="spv" value="{{ pp }}">
+                  <div class="pie-overlay" id="pie-percent2">{{ pp }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+ </div>
+
+           <input type="hidden" id="count_value1" value="{{ m_counts.0 }}">
+                <input type="hidden" id="count_value2" value="{{ m_counts.1 }}">
+                <input type="hidden" id="count_value3" value="{{ m_counts.2 }}">
+                <input type="hidden" id="count_value4" value="{{ m_counts.3 }}">
+                <input type="hidden" id="count_value5" value="{{ m_counts.4 }}">
+                <input type="hidden" id="count_value6" value="{{ m_counts.5 }}">
+                <input type="hidden" id="count_value7" value="{{ m_counts.6 }}">
+                <input type="hidden" id="count_value8" value="{{ m_counts.7 }}">
+                <input type="hidden" id="count_value9" value="{{ m_counts.8 }}">
+                <input type="hidden" id="count_value10" value="{{ m_counts.9 }}">
+                <input type="hidden" id="count_value11" value="{{ m_counts.10 }}">
+                <input type="hidden" id="count_value12" value="{{ m_counts.11 }}">
+
+    </div>
+
+    <!-----------------------------
+            NAVIGATION BAR
+      ---------------------------->
+    <div class="nav-bar" id="navigation-bar">
+      <img src="{% static 'files/assets/logo.png'%}" alt="logo" class="nav-bar-logo" />
+      <div class="nav-bar-content">
+        <a href="{% url 'ad_statistics' %}"><div
+          class="nav-bar-element nav-bar-element-selected"
+          id="dashboard-admin-nav"
+        >
+          <img src="{% static 'files/assets/DashboardIcon.svg'%}" class="nav-bar-icon" />
+            <label class="nav-label">Dashboard</label> </div></a>
+
+        <a href="{% url 'ad_users' %}"><div class="nav-bar-element" id="users-nav">
+          <img src="{% static 'files/assets/usersIcon.svg'%}" class="nav-bar-icon"  class="nav-bar-element nav-bar-element-selected" />
+            <label class="nav-label">Users</label></div></a>
+
+          <a href="{% url 'ad_scans' %}">
+        <div class="nav-bar-element" id="scan-history-nav">
+          <img src="{% static 'files/assets/ScanIcon.svg'%}" class="nav-bar-icon" />
+            <label class="nav-label">Scan History</label></div></a>
+
+           <a href="{% url 'logout_func' %}">
+           <div class="nav-bar-element" id="Users-nav">
+          <img src="{% static 'files/assets/UsersIcon.svg'%}" class="nav-bar-icon" />
+           <label class="nav-label">Logout</label></div></a>
+
+      </div>
+    </div>
+
+    <!--------------------------
+            SCRIPT FILES
+      ------------------------- -->
+    <script src="https://code.jquery.com/jquery-1.6.2.js"></script>
+    <script src="{% static 'files/js/Index.js'%}"></script>
+    <script src="{% static 'files/js/adminDash.js'%}"></script>
+
+  <script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+
+$('#dashboard-admin-nav, #users-nav').click(function() {
+    let clickedButton = $(this).attr('id');
+    console.log('hye');
+});
+
+function myFunctiontool() {
+
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function myFunctiontool2(t) {
+   console.log('hye')
+  if(document.getElementById('key').value != 'ck' ){
+       console.log(document.getElementById('key').value)
+       var myDropdown = document.getElementById(document.getElementById('key').value);
+       if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+  id="myDropdown"+t;
+  document.getElementById(id).classList.toggle("show");
+  document.getElementById('key').value=id;
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+
+   if (!e.target.matches('.action')) {
+  var myDropdown = document.getElementById(document.getElementById('key').value);
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+
+const shareDialog = document.querySelector('.share-dialog');
+const closeButton = document.querySelector('.close-button');
+function myFunctionshare(id){
+  if (navigator.share) {
+   navigator.share({
+      title: 'Share Link',
+      url: '/view_profile/'+id+'/'
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+    } else {
+       alert("Your Connection is not Secure");
+    }
+
+
+closeButton.addEventListener('click', event => {
+  shareDialog.classList.remove('is-open');
+});
+     }
+    </script>
+
+  </body>
+
+<!--------------------------
+            SCRIPT FILES
+      ------------------------- -->
+
+  </body>
+</html>

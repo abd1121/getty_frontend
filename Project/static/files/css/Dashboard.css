@@ -1,0 +1,268 @@
+@import url("./colors.css");
+
+#dashboard-area {
+  width: 100%;
+  margin-top: 100px;
+}
+.stats-panel {
+  display: flex;
+  width: 100%;
+  height: 30vh;
+}
+.stats-component {
+  background-color: var(--white);
+  margin: 15px;
+  width: 20%;
+  height: auto;
+  box-shadow: 3px 8px 11px rgba(29, 29, 29, 0.04);
+  border-radius: 10px;
+  border: none;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.stats-component h1 {
+  line-height: 26px;
+}
+.stats-icon {
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
+  margin-bottom: 20px;
+}
+
+#scan-stat-icon {
+  background-color: #1da1ec;
+  box-shadow: 0px 4px 8px rgba(45, 156, 219, 0.32);
+}
+#downloads-stat-icon {
+  background-color: #f8c647;
+  box-shadow: 0px 4px 8px rgba(242, 153, 74, 0.2);
+}
+
+#qr-stat-icon {
+  background-color: #11c138;
+  box-shadow: 0px 4px 8px rgba(17, 193, 56, 0.2);
+}
+
+#no-of-scans-stat-component {
+  flex-direction: row;
+  width: 50%;
+}
+
+#no-of-scans-right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.left-aligned {
+  align-self: flex-start;
+  margin-left: 20px;
+}
+
+table {
+  width: calc(100% - 40px);
+  border-collapse: collapse;
+}
+table thead,
+table tbody {
+  width: 100%;
+}
+
+tr {
+  border: 1px solid #dee6ed;
+}
+table thead {
+  background-color: #eef7ff;
+  display: table-header-group;
+}
+th,
+td {
+  height: 44px;
+  text-align: start;
+  padding: 0px 10px;
+  margin: 0px;
+  border: none;
+}
+th label {
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+}
+td {
+  font-size: 14px;
+  color: #001737;
+  background-color: var(--white);
+  opacity: 0.9;
+}
+.td-holder-name {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.td-holder-name label {
+  font-weight: 500;
+  color: #001737;
+  opacity: 0.9;
+  margin-left: 5px;
+}
+.td-image {
+  width: 50px;
+  height: 40px;
+}
+.action::before {
+  content: "...";
+  font-size: 30px;
+}
+.action {
+  width: 20px;
+  transform: rotate(90deg);
+}
+
+#table-back-button,
+#table-next-button {
+  background-color: var(--dark-blue);
+  width: 32px;
+  height: 32px;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#table-back-button::before {
+  content: "\276E";
+}
+#table-back-button {
+  opacity: 0.2;
+}
+#table-next-button::before {
+  content: "\276F";
+}
+
+.table-actions-footer {
+  display: flex;
+  align-items: center;
+}
+
+#shown-range-of-rows {
+  padding: 10px;
+  margin: 0px 10px;
+}
+
+#number-of-displayed-rows,
+#shown-range-of-rows {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+#scans-chart {
+  width: 70%;
+}
+
+.checked-row td {
+  background-color: #f4faff;
+}
+
+#delete-table-selection-button,
+#download-table-vcf-button {
+  display: flex;
+  align-items: center;
+}
+#delete-table-selection-button {
+  background-color: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+}
+.table-actions-p {
+  opacity: 0.5;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px;
+}
+
+#table-selected-actions {
+  display: none;
+}
+
+.custom-dropdown {
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--text-blue);
+}
+.selected-dropdown-option {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-blue);
+  border-radius: 48px;
+  cursor: pointer;
+}
+.dropdown-arrow {
+  transform: rotate(270deg);
+  padding: 0px 10px;
+}
+
+.dropdown-arrow::before {
+  content: "\276E";
+}
+.dropdown-options {
+  display: none;
+  padding: 0px;
+  list-style-type: none;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(29, 29, 29, 0.1);
+}
+.dropdown-options li {
+  cursor: pointer;
+  background-color: var(--white);
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+.dropdown-options li:hover {
+  background-color: var(--bg-blue);
+}
+
+#confirm-delete-modal {
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1200px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .stats-panel {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .dropdown-options {
+    display: block;
+    position: absolute;
+    z-index: 5;
+  }
+  .stats-panel {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .stats-icon {
+    width: 20px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  .stats-component {
+    padding: 15px;
+    margin: 5px;
+  }
+}

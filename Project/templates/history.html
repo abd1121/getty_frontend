@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="{% static 'files/css/rules.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/ScanCard.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Index.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/Dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/createGettyProfile.css' %}" />
+    <link rel="stylesheet" href="{% static 'files/css/colorPalette.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
+    <title>Getty Card</title>
+    <style>
+ .dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: beige;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top: 100px;
+    margin-right: 5px;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+    </style>
+
+</head>
+<body>
+   <div class="main-body">
+    <!-- -----------------------
+            TOP NAV BAR
+    ------------------------- -->
+ <div class="top-bar">
+        <div id="nav-menu">|||</div>
+        <div class="profile-view">
+            {% if request.user.is_superuser %}
+             <img
+                    src="/static/default/default.png"
+                    alt="profile-image"
+                    class="profile-image"
+            />
+            {% else %}
+            <img
+                    src="{{ request.user.profile.img.url }}"
+                    alt="profile-image"
+                    class="profile-image"
+            />
+            {% endif %}
+            <div class="user-name-group">
+                <label class="nav-label" id="user-name">{{request.user.username|title}}</label>
+                <p id="user-role">User</p>
+            </div>
+             <div class="dropdown">
+          <img src="{% static 'files/assets/DownArrow.svg'%}" class="dropbtn" onclick="myFunctiontool()" />
+   </div>
+
+  <div class="dropdown-content" id="myDropdown" >
+    <a href="{% url 'logout_func' %}">Logout</a>
+
+  </div>
+        </div>
+    </div>
+
+    <!-- ------------------------------------
+            SCAN CARD AREA (SELECT FILE)
+    ------------------------------------------>
+ <div class="main-pane" id="dashboard-area" style="display: flex;">
+        <h1 class="left-aligned">Quick Stats</h1>
+        <div class="stats-panel" id="quick-stats">
+          <div class="stats-component">
+            <img src="{% static 'files/assets/scanStatIcon.svg' %}"   class="stats-icon" id="scan-stat-icon">
+            <h1 id="scan-stats">{{ Scans }}</h1>
+            <p>Total Scans</p>
+          </div>
+          <div class="stats-component">
+            <img src="{% static 'files/assets/downloadStats.svg' %}"  class="stats-icon" id="downloads-stat-icon">
+            <h1 id="downloads-stats">{{ request.user.profile.vcf_download }}</h1>
+            <p>Downloaded VCFs</p>
+          </div>
+          <div class="stats-component">
+            <img src="{% static 'files/assets/qrCodeIcon.svg' %}"  class="stats-icon" id="qr-stat-icon">
+            <h1 id="qr-stats">{{ request.user.profile.qr_generated }}</h1>
+            <p>QR Code Generated</p>
+          </div>
+          <div class="stats-component"  id="no-of-scans-stat-component">
+            <img src="{{ img }}" class="stats-icon" id="scans-chart" style="width: 60%;margin-top: -40px">
+              <form method="post" id="myscan">
+                  {% csrf_token %}
+            <div id="no-of-scans-right">
+
+              <div class="custom-dropdown">
+                <div class="selected-dropdown-option" id="dropdown-main">
+                  <div id="selected-dropdown-option">Monthly</div>
+                  <div class="dropdown-arrow" id="dropdown-arrow"></div>
+                </div>
+                <ul class="dropdown-options" id="dropdown-options" onclick="selectedvalue()">
+                  <li id="dropdown-option-1" >Weekly</li>
+                  <li id="dropdown-option-2" >Yearly</li>
+                </ul>
+              </div>
+              <div>
+                <h1 id="no-of-scan-stats">{{ month }}</h1>
+                <p>No. of Scans</p>
+              </div>
+            </div>
+
+                  <input type="text" value="0" id='key' name="key" hidden/>
+                   <input type="submit" id="sbutton" value="btn" hidden/>
+              </form>
+          </div>
+        </div>
+        <div class="row expanded">
+          <h1>Your Scan History</h1>
+          <div class="row" id="table-selected-actions">
+            <p class="table-actions-p" id="table-actions-p">0 Selected</p>
+            <a href="javascript:void(0)"><div class="transparent-button" id="delete-table-selection-button" onclick="record1()">
+              <img src="{% static 'files/assets/trash-2.svg' %}" >
+              <div>Delete Selection</div>
+            </div></a>
+              <div class="dark-button" id="download-table-vcf-button" style="display: none">
+              <img src="{% static 'files/assets/download.svg' %}" >
+              <div>Download VCF</div>
+            </div>
+          </div>
+        </div>
+       <table id="scan-history">
+          <thead>
+            <tr><th>
+              <input type="checkbox" class="custom-checkbox" id="all-delete" onchange="his_deleteall()">
+            </th>
+            <th id="th2">
+              <label>Card holder Name</label> <img src="{% static 'files/assets/sortIcon.svg' %}">
+            </th>
+            <th><label>Address</label> <img src="{% static 'files/assets/sortIcon.svg' %}"></th>
+            <th><label>Email id</label> <img src="{% static 'files/assets/sortIcon.svg' %}"></th>
+            <th><label>contact</label> <img src="{% static 'files/assets/sortIcon.svg' %}" ></th>
+            <th><label>Scanned on</label> <img src="{% static 'files/assets/sortIcon.svg' %}"></th>
+            <th><label>actions</label></th>
+          </tr></thead>
+          <tbody>
+          {% for i in records %}
+            <tr data-id="{{ i.id }}">
+              <td>
+                <input type="checkbox" class="custom-checkbox" name="pl" id="{{ i.id }}" onchange="check2()">
+              </td>
+              <td class="td-holder-name" headers="th2">
+                <img src="{{ i.img.url }}"  class="td-image" alt="card-image">
+                <label>{{i.cname}}</label>
+              </td>
+              <td>{{i.address}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.contact}}</td>
+              <td>
+                <div>{{i.date.date}}</div>
+                <p>{{ i.date.time }}</p>
+              </td>
+                <td><a href="{% url 'delete' i.pk %}" onclick="return confirm('Are You Sure?');"><img src="{% static 'files/assets/trash-2.svg' %}" /></a></td>
+            </tr>
+       {% endfor %}
+
+          </tbody>
+        </table>
+
+        <div class="row expanded">
+          <div id="number-of-displayed-rows">
+            Displaying <b> 10 </b> out of <b> 2000 </b>
+          </div>
+          <div class="table-actions-footer">
+            <div id="shown-range-of-rows">1-10</div>
+            <div id="table-back-button"></div>
+            <div id="table-next-button"></div>
+          </div>
+        </div>
+      </div>
+   <input type="text" id="control" value="0" hidden/>
+</div>
+
+
+<div class="nav-bar" id="navigation-bar">
+    <img src="{% static 'files/assets/logo.png' %}" alt="logo" class="nav-bar-logo" />
+    <div class="nav-bar-content">
+        <a href="{% url 'history' %}">
+            <div class="nav-bar-element nav-bar-element-selected" id="dashboard-nav">
+                <img src="{% static 'files/assets/DashboardIcon.svg' %}" class="nav-bar-icon" />
+                <label class="nav-label">Dashboard</label>
+            </div>
+        </a>
+        <a href="{% url 'index' %}">
+            <div
+                    class="nav-bar-element "
+                    id="scan-card-nav"
+            >
+                <img src="{% static 'files/assets/ScanIcon.svg' %}" class="nav-bar-icon" />
+                <label class="nav-label">Scan Your Card</label>
+            </div>
+        </a>
+        <p>My Getty Profile</p>
+        {% if profile == 1 %}
+        <a href="{% url 'profile_create' %}">
+            <div class="nav-bar-element" id="create-new-profile-button">
+                <img src="{% static 'files/assets/AddIcon.svg' %}" class="nav-bar-icon" />
+                <label class="nav-label">Create New Profile</label>
+            </div>
+            </a>
+        {% else %}
+            <div class="nav-dropdown" id="nav-dropdown">
+                <div class="nav-bar-element" id="my-profile-button">
+                    <img
+                            src="{{ request.user.social_profile.prof_img.url }}"
+                            class="nav-bar-icon"
+                            id="nav-profile-image"
+                    />
+                    <label class="nav-label">{{ request.user.social_profile.name }}</label>
+                    <div class="dropdown-arrow" id="nav-dropdown-arrow"></div>
+                </div>
+                <ul class="nav-dropdown-list" id="nav-dropdown-list">
+                    <li class="nav-bar-element">
+                        <img src="{% static 'files/assets/viewPublic.svg' %}" />
+                        <a href="{% url 'view_profile' id=request.user.social_profile.pid.id  %}"> <label class="dropdown-label">View Public Mode</label></a>
+                    </li>
+                    <li class="nav-bar-element">
+                        <img src="{% static 'files/assets/EditIcon.svg' %}" />
+                        <a href="{% url 'edit_profile' id=request.user.social_profile.pid.id  %}">  <label class="dropdown-label">Edit Profile</label></a>
+                    </li>
+                    <li class="nav-bar-element">
+                        <img src="{% static 'files/assets/EditIcon.svg' %}" />
+                        <a href="{% url 'customize_profile' id=request.user.social_profile.pid.id  %}"><label class="dropdown-label">Customize Profile</label></a>
+                    </li>
+                    <li class="nav-bar-element" id="delete-profile-button">
+                        <img src="{% static 'files/assets/trash-2.svg' %}" />
+                        <a href="{% url 'delete_profile' id=request.user.social_profile.pid.id %}"><label class="dropdown-label delete-label">Delete Profile</label></a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.6.2.js"></script>
+<script src="{% static 'files/js/main.js' %}"></script>
+<script src="{% static 'files/myjs/editing.js' %}"></script>
+<script src="{% static 'files/js/Index.js' %}" type="application/javascript"></script>
+<script>
+function myFunctiontool() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+</script>
+<script>
+    function his_deleteall() {
+
+
+    if (document.getElementById('control').value == '0') {
+        var markedCheckbox = document.getElementsByName('pl');
+        a=0
+        for (var checkbox of markedCheckbox) {
+            checkbox.checked = true;
+            a=a+1;
+        }
+        document.getElementById('table-actions-p').innerText=a.toString().concat(' Selected');
+        document.getElementById('control').value ='1';
+        document.getElementById('table-selected-actions').style.display='inline';
+    }
+    else{
+
+        var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            checkbox.checked = false;
+        }
+        document.getElementById('table-actions-p').innerText='0 Selected';
+         document.getElementById('table-selected-actions').style.display='none';
+        document.getElementById('control').value='0';
+
+    }
+};
+function record1() {
+
+    var selected_rows=[];
+ var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            if(checkbox.checked){
+            selected_rows.push(checkbox.id)
+
+            }
+        }
+
+    // slected_values=stringify
+    console.log(selected_rows)
+    var selected_rows = JSON.stringify(selected_rows);
+    var isDelete = confirm("Do you really want to delete records?");
+    if(isDelete){
+
+        $.ajax({
+              url: '{% url 'multiple_delete' %}',
+              type: 'POST',
+              data: { post_id: selected_rows,csrfmiddlewaretoken: '{{ csrf_token }}'},
+              success: function(response){
+                 window.location.href="{% url 'history' %}"
+              }
+           });
+
+
+
+    }
+
+
+}
+function check2() {
+
+        var a = 0;
+        var markedCheckbox = document.getElementsByName('pl');
+        for (var checkbox of markedCheckbox) {
+            if (checkbox.checked) {
+                a = a + 1;
+
+            }
+        }
+            document.getElementById('table-actions-p').innerText=a.toString().concat(' Selected');
+            if (a >= 2) {
+                console.log(a);
+               document.getElementById('table-selected-actions').style.display='block';
+            } else {
+
+                   document.getElementById('table-selected-actions').style.display='none';
+            }
+
+}
+</script>
+
+</body>
+</html>
+
+
